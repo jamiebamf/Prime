@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Industries We Serve — Prime-EPOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .sector-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .sector-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-decoration: none;
+    color: var(--white);
+    transition: transform 0.3s;
+  }
+  .sector-card:hover { transform: translateY(-4px); }
+
+  .sector-card-bg {
+    position: absolute;
+    inset: 0;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s;
+  }
+  .sector-card:hover .sector-card-bg { transform: scale(1.04); }
+
+  .sector-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+  }
+
+  .sector-card-body {
+    position: relative;
+    padding: 2rem;
+    z-index: 1;
+  }
+
+  .sector-card-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .sector-card-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+    line-height: 1.1;
+  }
+
+  .sector-card-desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 1.25rem;
+    max-width: 400px;
+  }
+
+  .sector-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--white);
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 0.5rem 1.1rem;
+    border-radius: 6px;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s;
+  }
+  .sector-card:hover .sector-card-cta { background: rgba(232,93,4,0.8); border-color: transparent; }
+
+  /* Sub-types ticker inside each card */
+  .sector-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .sector-tag {
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.2rem 0.65rem;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  @media (max-width: 768px) {
+    .sector-grid { grid-template-columns: 1fr; }
+    .sector-card { min-height: 300px; }
+  }
+</style>
+
+<link rel="stylesheet" href="assets/css/site-shell-v2.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></a>
+  <ul class="nav-links">
+    <li class="has-dropdown">
+      <a href="industries.html">Industries</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="industries/hospitality.html">Hospitality</a>
+          <a href="industries/retail.html">Retail</a>
+          <a href="industries/venues.html">Venues &amp; Events</a>
+          <a href="industries/services.html">Services</a>
+        </div>
+      </div>
+    </li>
+    <li class="has-dropdown">
+      <a href="solutions.html">Solutions</a>
+      <div class="nav-dropdown wide">
+        <div class="nav-dropdown-inner">
+          <a href="solutions/touchpoint.html">TouchPoint</a>
+          <a href="solutions/touchpoint-lite.html">TouchPoint Lite</a>
+          <a href="solutions/touchoffice.html">TouchOffice Web</a>
+          <a href="solutions/pockettouch.html">PocketTouch</a>
+          <a href="solutions/bytable.html">ByTable</a>
+          <a href="solutions/touchkitchen.html">TouchKitchen</a>
+          <a href="solutions/selfservice.html">SelfService</a>
+          <a href="solutions/touchstock.html">TouchStock</a>
+          <a href="solutions/touchreservation.html">TouchReservation</a>
+          <a href="solutions/collectionpoint.html">CollectionPoint</a>
+          <div class="dd-divider"></div>
+          <div class="dd-view-all"><a href="solutions.html">View all solutions &rarr;</a></div>
+        </div>
+      </div>
+    </li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<section class="page-hero">
+  <p class="hero-eyebrow">Industries we serve</p>
+  <h1>EPoS built for<br><em>your</em> kind of business.</h1>
+  <p>Whatever sector you're in, we have a solution built around how you actually operate. Select your industry to find out more.</p>
+</section>
+
+<section style="padding: var(--section-pad); background: var(--white);">
+  <div class="reveal">
+    <p class="section-label">Choose your sector</p>
+    <h2 class="section-heading">Find the right<br>solution for you.</h2>
+  </div>
+
+  <div class="sector-grid reveal" style="transition-delay:0.1s">
+
+    <!-- HOSPITALITY -->
+    <a id="hospitality" href="industries/hospitality.html" class="sector-card">
+      <img class="sector-card-bg" src="https://icrtouch.com/wp-content/uploads/TouchPoint_Bar_1024x576px.jpg" alt="Hospitality">
+      <div class="sector-card-overlay"></div>
+      <div class="sector-card-body">
+        <div class="sector-card-label">Hospitality</div>
+        <div class="sector-card-title">Pubs, Bars &<br>Restaurants</div>
+        <div class="sector-card-tags">
+          <span class="sector-tag">Pubs</span>
+          <span class="sector-tag">Bars</span>
+          <span class="sector-tag">Restaurants</span>
+          <span class="sector-tag">Hotels</span>
+          <span class="sector-tag">Cafés</span>
+          <span class="sector-tag">Takeaways</span>
+          <span class="sector-tag">Nightclubs</span>
+        </div>
+        <span class="sector-card-cta">Explore Hospitality →</span>
+      </div>
+    </a>
+
+    <!-- RETAIL -->
+    <a id="retail" href="industries/retail.html" class="sector-card">
+      <img class="sector-card-bg" src="https://icrtouch.com/wp-content/uploads/VenuesEvents-retail-1024.jpg" alt="Retail">
+      <div class="sector-card-overlay"></div>
+      <div class="sector-card-body">
+        <div class="sector-card-label">Retail</div>
+        <div class="sector-card-title">Shops, Stores<br>& Markets</div>
+        <div class="sector-card-tags">
+          <span class="sector-tag">Supermarkets</span>
+          <span class="sector-tag">Convenience</span>
+          <span class="sector-tag">Pop-Ups</span>
+          <span class="sector-tag">Farm Shops</span>
+          <span class="sector-tag">Boutiques</span>
+          <span class="sector-tag">Off-Licences</span>
+        </div>
+        <span class="sector-card-cta">Explore Retail →</span>
+      </div>
+    </a>
+
+    <!-- VENUES -->
+    <a id="venues" href="industries/venues.html" class="sector-card">
+      <img class="sector-card-bg" src="https://icrtouch.com/wp-content/uploads/VenuesEvents_1024x576px.jpg" alt="Venues and Events">
+      <div class="sector-card-overlay"></div>
+      <div class="sector-card-body">
+        <div class="sector-card-label">Venues &amp; Events</div>
+        <div class="sector-card-title">Stadiums, Theatres<br>& Attractions</div>
+        <div class="sector-card-tags">
+          <span class="sector-tag">Stadiums</span>
+          <span class="sector-tag">Theatres</span>
+          <span class="sector-tag">Cinemas</span>
+          <span class="sector-tag">Museums</span>
+          <span class="sector-tag">Arenas</span>
+          <span class="sector-tag">Festivals</span>
+        </div>
+        <span class="sector-card-cta">Explore Venues →</span>
+      </div>
+    </a>
+
+    <!-- SERVICES -->
+    <a id="services" href="industries/services.html" class="sector-card">
+      <img class="sector-card-bg" src="https://icrtouch.com/wp-content/uploads/TouchPOint-ProductPage-Cafe-1024.jpg" alt="Services">
+      <div class="sector-card-overlay"></div>
+      <div class="sector-card-body">
+        <div class="sector-card-label">Services</div>
+        <div class="sector-card-title">Salons, Gyms<br>& Professionals</div>
+        <div class="sector-card-tags">
+          <span class="sector-tag">Salons</span>
+          <span class="sector-tag">Spas</span>
+          <span class="sector-tag">Gyms</span>
+          <span class="sector-tag">Barbers</span>
+          <span class="sector-tag">Vets</span>
+          <span class="sector-tag">Medical</span>
+          <span class="sector-tag">Dentists</span>
+        </div>
+        <span class="sector-card-cta">Explore Services →</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<div class="cta-band reveal">
+  <h2>Not sure which sector<br><em>fits you best?</em></h2>
+  <p>Just get in touch — we'll point you in the right direction.</p>
+  <a href="contact.html" class="btn-primary">Talk to us →</a>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></div>
+      <p class="footer-tagline">Professional EPoS solutions for UK businesses. Hardware that lasts. Software that works. Support that's actually here.</p>
+      <div class="footer-contact">
+        <div>Phone: <a href="tel:07947246247">07947 246247</a></div>
+        <div>Email: <a href="mailto:info@prime-epos.co.uk">info@prime-epos.co.uk</a></div>
+        <div>Support: 24/7 support available</div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Industries</div>
+      <ul class="footer-links">
+        <li><a href="industries/hospitality.html">Hospitality</a></li>
+        <li><a href="industries/retail.html">Retail</a></li>
+        <li><a href="industries/venues.html">Venues &amp; Events</a></li>
+        <li><a href="industries/services.html">Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Solutions</div>
+      <ul class="footer-links">
+        <li><a href="solutions/touchpoint.html">TouchPoint</a></li>
+        <li><a href="solutions/touchoffice.html">TouchOffice Web</a></li>
+        <li><a href="solutions/pockettouch.html">PocketTouch</a></li>
+        <li><a href="solutions.html">View all</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="products.html">Hardware</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="status.html">System Status</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">&copy; 2026 Prime-EPOS. All rights reserved. Registered in England &amp; Wales.</p>
+    <div class="footer-legal">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

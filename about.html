@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — Prime-EPOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--white); color: var(--black); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+  /* ── NAV ── */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 5vw; height: 72px; display: flex; align-items: center; justify-content: space-between; background: rgba(14,14,14,0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; color: var(--white); text-decoration: none; letter-spacing: -0.01em; }
+  .nav-logo span { color: var(--accent-light); }
+  .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.875rem; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--white); }
+  .nav-cta { background: var(--accent) !important; color: var(--white) !important; padding: 0.5rem 1.25rem; border-radius: 6px; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--accent-light) !important; }
+  .nav-mobile-toggle { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+  .nav-mobile-toggle span { width: 22px; height: 2px; background: rgba(255,255,255,0.8); border-radius: 2px; display: block; }
+
+  /* ── PAGE HERO ── */
+  .page-hero { background: var(--dark); padding: 140px 5vw 90px; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; top: -150px; right: -50px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(232,93,4,0.1) 0%, transparent 70%); pointer-events: none; }
+  .hero-eyebrow { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 1.25rem; opacity: 0; animation: fadeUp 0.7s 0.1s forwards; }
+  .page-hero h1 { font-family: var(--font-display); font-size: clamp(2.75rem, 6vw, 5.5rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; color: var(--white); max-width: 800px; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.7s 0.25s forwards; }
+  .page-hero h1 em { font-style: normal; color: var(--accent-light); }
+  .page-hero p { font-size: 1.1rem; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.5); max-width: 580px; opacity: 0; animation: fadeUp 0.7s 0.4s forwards; }
+
+  /* ── COMMONS ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .section-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .section-heading { font-family: var(--font-display); font-size: clamp(1.9rem, 3.5vw, 2.75rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; color: var(--black); margin-bottom: 0.75rem; }
+  .section-heading.light { color: var(--white); }
+  .section-sub { font-size: 1rem; font-weight: 300; line-height: 1.7; color: var(--mid); max-width: 600px; }
+
+  /* ── STORY ── */
+  .story { padding: 90px 5vw; background: var(--white); }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .story-text p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--mid);
+    margin-bottom: 1.25rem;
+  }
+
+  .story-text p strong {
+    color: var(--black);
+    font-weight: 600;
+  }
+
+  .story-text blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1.25rem;
+    margin: 2rem 0;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--black);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .story-visual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .story-stat {
+    background: var(--off-white);
+    border-radius: 12px;
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .story-stat:first-child {
+    grid-column: 1 / -1;
+    background: var(--dark);
+  }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--black);
+  }
+
+  .story-stat:first-child .stat-num { color: var(--accent-light); }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--mid);
+    line-height: 1.4;
+  }
+
+  .story-stat:first-child .stat-label { color: rgba(255,255,255,0.45); }
+
+  /* ── VALUES ── */
+  .values { padding: 90px 5vw; background: var(--off-white); }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5px;
+    margin-top: 3.5rem;
+    background: var(--border-light);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .value-card {
+    background: var(--white);
+    padding: 2.25rem 2rem;
+    transition: background 0.2s;
+  }
+  .value-card:hover { background: #fafafa; }
+
+  .value-num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    opacity: 0.25;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  .value-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .value-text {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--mid);
+  }
+
+  /* ── TEAM ── */
+  .team { padding: 90px 5vw; background: var(--white); }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+
+  .team-card {
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .team-photo {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+    background: var(--off-white);
+  }
+
+  .team-photo-placeholder {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--dark2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+  }
+
+  .team-body { padding: 1.25rem 1.5rem; }
+
+  .team-name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+
+  .team-role {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+  }
+
+  .team-bio {
+    font-size: 0.825rem;
+    line-height: 1.6;
+    color: var(--mid);
+  }
+
+  /* ── WHY DIFFERENT ── */
+  .different { padding: 90px 5vw; background: var(--dark); }
+
+  .different-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 3.5rem;
+  }
+
+  .diff-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: border-color 0.25s;
+  }
+  .diff-card:hover { border-color: rgba(249,115,22,0.3); }
+
+  .diff-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+
+  .diff-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .diff-text {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ── CTA ── */
+  .cta-band { background: var(--accent); padding: 90px 5vw; text-align: center; }
+  .cta-band h2 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 800; letter-spacing: -0.025em; color: var(--white); margin-bottom: 1rem; line-height: 1.1; }
+  .cta-band p { font-size: 1rem; color: rgba(255,255,255,0.75); margin-bottom: 2.5rem; font-weight: 300; }
+  .btn-white { background: var(--white); color: var(--accent); padding: 0.875rem 2rem; border-radius: 8px; font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: opacity 0.2s; }
+  .btn-white:hover { opacity: 0.9; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--black); padding: 70px 5vw 40px; border-top: 1px solid var(--border); }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border); }
+  .footer-brand { font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--white); margin-bottom: 0.75rem; }
+  .footer-brand span { color: var(--accent-light); }
+  .footer-tagline { font-size: 0.875rem; color: rgba(255,255,255,0.35); line-height: 1.6; max-width: 280px; }
+  .footer-contact { margin-top: 1.5rem; font-size: 0.875rem; color: rgba(255,255,255,0.5); line-height: 1.8; }
+  .footer-contact a { color: var(--accent-light); text-decoration: none; }
+  .footer-col-title { font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 1rem; }
+  .footer-links { list-style: none; }
+  .footer-links li + li { margin-top: 0.5rem; }
+  .footer-links a { font-size: 0.875rem; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; flex-wrap: wrap; gap: 1rem; }
+  .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.25); }
+  .footer-legal { display: flex; gap: 1.5rem; }
+  .footer-legal a { font-size: 0.8rem; color: rgba(255,255,255,0.25); text-decoration: none; transition: color 0.2s; }
+  .footer-legal a:hover { color: rgba(255,255,255,0.6); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 900px) {
+    .story-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .different-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-mobile-toggle { display: flex; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .story-visual { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .footer-top { grid-template-columns: 1fr; }
+    .story-visual { grid-template-columns: 1fr; }
+    .story-stat:first-child { grid-column: 1; }
+  }
+</style>
+<link rel="stylesheet" href="assets/css/style.css">
+
+<link rel="stylesheet" href="assets/css/site-shell-v2.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></a>
+  <ul class="nav-links">
+    <li class="has-dropdown">
+      <a href="industries.html">Industries</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="industries/hospitality.html">Hospitality</a>
+          <a href="industries/retail.html">Retail</a>
+          <a href="industries/venues.html">Venues &amp; Events</a>
+          <a href="industries/services.html">Services</a>
+        </div>
+      </div>
+    </li>
+    <li class="has-dropdown">
+      <a href="solutions.html">Solutions</a>
+      <div class="nav-dropdown wide">
+        <div class="nav-dropdown-inner">
+          <a href="solutions/touchpoint.html">TouchPoint</a>
+          <a href="solutions/touchpoint-lite.html">TouchPoint Lite</a>
+          <a href="solutions/touchoffice.html">TouchOffice Web</a>
+          <a href="solutions/pockettouch.html">PocketTouch</a>
+          <a href="solutions/bytable.html">ByTable</a>
+          <a href="solutions/touchkitchen.html">TouchKitchen</a>
+          <a href="solutions/selfservice.html">SelfService</a>
+          <a href="solutions/touchstock.html">TouchStock</a>
+          <a href="solutions/touchreservation.html">TouchReservation</a>
+          <a href="solutions/collectionpoint.html">CollectionPoint</a>
+          <div class="dd-divider"></div>
+          <div class="dd-view-all"><a href="solutions.html">View all solutions &rarr;</a></div>
+        </div>
+      </div>
+    </li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <p class="hero-eyebrow">About Prime-EPOS</p>
+  <h1>We're the team that<br>actually <em>shows up.</em></h1>
+  <p>Based in South Yorkshire. Serving businesses across the UK. We've built our reputation on doing the right thing — proper hardware, honest advice, and support that's there when you need it.</p>
+</section>
+
+<!-- STORY -->
+<section class="story">
+  <div class="story-grid">
+    <div class="story-text reveal">
+      <p class="section-label">Our story</p>
+      <h2 class="section-heading" style="margin-bottom:1.5rem;">Built on doing<br>things properly.</h2>
+      <p>Prime-EPOS was founded on a simple frustration: too many businesses were being sold cheap, underpowered hardware and left without the support they needed when things went wrong. We set out to fix that.</p>
+      <p><strong>We supply only commercial-grade, POS-ready equipment</strong> — the kind that's built for the demands of a real working business, not a home office. Everything we install is configured and tested before it arrives on site.</p>
+      <blockquote>"We're not just selling you a till. We're taking on responsibility for a critical part of your business — and we take that seriously."</blockquote>
+      <p>We're proudly based in South Yorkshire, and while we work with businesses across the entire UK, we bring the same local dedication and personal service to every single customer, wherever they are.</p>
+    </div>
+    <div class="story-visual reveal" style="transition-delay:0.15s">
+      <div class="story-stat">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">UK-based support — always available, always a real person</div>
+      </div>
+      <div class="story-stat">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Years in the EPoS industry</div>
+      </div>
+      <div class="story-stat">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Industries we specialise in</div>
+      </div>
+      <div class="story-stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Commercial-grade hardware, every time</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values">
+  <div class="reveal">
+    <p class="section-label">What we stand for</p>
+    <h2 class="section-heading">Our values aren't<br>on a poster. They're in our work.</h2>
+  </div>
+  <div class="values-grid reveal" style="transition-delay:0.1s">
+    <div class="value-card">
+      <div class="value-num">01</div>
+      <div class="value-title">Honesty first</div>
+      <p class="value-text">We'll tell you what you actually need — not what earns us the most. If a simpler solution does the job, we'll recommend it. That's how we build relationships that last.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-num">02</div>
+      <div class="value-title">Hardware that earns its place</div>
+      <p class="value-text">We refuse to supply hardware that isn't up to the job. Every terminal, printer, and peripheral we sell is commercial-grade and chosen because it will last in a working business environment.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-num">03</div>
+      <div class="value-title">Support you can rely on</div>
+      <p class="value-text">When your till goes down on a Friday night, you need someone to pick up. Our UK support team is available around the clock — no voicemail, no ticketing system, no waiting until Monday.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-num">04</div>
+      <div class="value-title">Long-term thinking</div>
+      <p class="value-text">We're not interested in quick sales. We want to be the EPoS partner you still call in five years. That means getting the setup right from day one and being there as your business grows.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team">
+  <div class="reveal">
+    <p class="section-label">The team</p>
+    <h2 class="section-heading">The people behind<br>Prime-EPOS.</h2>
+    <p class="section-sub">We're a small, specialist team — which means you always deal with someone who actually knows your system.</p>
+  </div>
+  <div class="team-grid reveal" style="transition-delay:0.1s">
+
+    <div class="team-card">
+      <div class="team-photo-placeholder">👤</div>
+      <div class="team-body">
+        <div class="team-name">Your Name</div>
+        <div class="team-role">Founder & Director</div>
+        <p class="team-bio">Add your bio here — your background, how long you've been in the industry, and what drove you to start Prime-EPOS.</p>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo-placeholder">👤</div>
+      <div class="team-body">
+        <div class="team-name">Team Member</div>
+        <div class="team-role">Technical Support</div>
+        <p class="team-bio">Add team member bio here. A sentence or two about their background and what they do day-to-day.</p>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo-placeholder">👤</div>
+      <div class="team-body">
+        <div class="team-name">Team Member</div>
+        <div class="team-role">Installation Engineer</div>
+        <p class="team-bio">Add team member bio here. A sentence or two about their background and what they do day-to-day.</p>
+      </div>
+    </div>
+
+  </div>
+  <p style="font-size:0.85rem; color:var(--mid); margin-top:2rem;" class="reveal">📸 <em>Replace the placeholder icons above with real team photos — this is one of the highest-trust sections of the site.</em></p>
+</section>
+
+<!-- WHY WE'RE DIFFERENT -->
+<section class="different">
+  <div class="reveal">
+    <p class="section-label" style="color:var(--accent-light)">Why choose Prime-EPOS</p>
+    <h2 class="section-heading light">What makes us<br>different.</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.45)">There are plenty of EPoS companies out there. Here's why businesses across the UK choose us.</p>
+  </div>
+  <div class="different-grid reveal" style="transition-delay:0.1s">
+    <div class="diff-card">
+      <div class="diff-icon">🇬🇧</div>
+      <div class="diff-title">UK support — always</div>
+      <p class="diff-text">No overseas call centres. No automated systems. When you call us, you reach someone in the UK who knows your setup and can actually fix the problem.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-icon">🏭</div>
+      <div class="diff-title">We won't sell you cheap kit</div>
+      <p class="diff-text">Too many companies ship consumer tablets and call them EPoS hardware. We only supply equipment that's been built for commercial use — because your business deserves it.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-icon">🎯</div>
+      <div class="diff-title">Right solution, right size</div>
+      <p class="diff-text">We don't push the most expensive option. We understand your business and recommend exactly what you need — whether that's a single till or a full multi-site ecosystem.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-icon">🤝</div>
+      <div class="diff-title">A partner, not just a supplier</div>
+      <p class="diff-text">We're invested in your success. We'll be there for installation, training, and every day after — as a partner who wants your business to thrive, not just a company that sold you something.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band reveal">
+  <h2>Come and say hello.</h2>
+  <p>Whether you're ready to get a quote or just want to ask a few questions — we're always happy to talk.</p>
+  <a href="contact.html" class="btn-white">Get in touch →</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></div>
+      <p class="footer-tagline">Professional EPoS solutions for UK businesses. Hardware that lasts. Software that works. Support that's actually here.</p>
+      <div class="footer-contact">
+        <div>Phone: <a href="tel:07947246247">07947 246247</a></div>
+        <div>Email: <a href="mailto:info@prime-epos.co.uk">info@prime-epos.co.uk</a></div>
+        <div>Support: 24/7 support available</div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Industries</div>
+      <ul class="footer-links">
+        <li><a href="industries/hospitality.html">Hospitality</a></li>
+        <li><a href="industries/retail.html">Retail</a></li>
+        <li><a href="industries/venues.html">Venues &amp; Events</a></li>
+        <li><a href="industries/services.html">Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Solutions</div>
+      <ul class="footer-links">
+        <li><a href="solutions/touchpoint.html">TouchPoint</a></li>
+        <li><a href="solutions/touchoffice.html">TouchOffice Web</a></li>
+        <li><a href="solutions/pockettouch.html">PocketTouch</a></li>
+        <li><a href="solutions.html">View all</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="products.html">Hardware</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="status.html">System Status</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">&copy; 2026 Prime-EPOS. All rights reserved. Registered in England &amp; Wales.</p>
+    <div class="footer-legal">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.07 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

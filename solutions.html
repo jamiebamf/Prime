@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPoS Solutions — Prime-EPOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--white);
+    color: var(--black);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 5vw;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(14,14,14,0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .nav-logo span { color: var(--accent-light); }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--white); }
+  .nav-cta {
+    background: var(--accent) !important;
+    color: var(--white) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 500 !important;
+  }
+  .nav-cta:hover { background: var(--accent-light) !important; }
+  .nav-mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    padding: 4px;
+  }
+  .nav-mobile-toggle span {
+    width: 22px; height: 2px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 2px;
+    display: block;
+  }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    background: var(--dark);
+    padding: 140px 5vw 90px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-hero::before {
+    content: '';
+    position: absolute;
+    top: -150px; right: -50px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,93,4,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 1.25rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.1s forwards;
+  }
+  .page-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 6vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: var(--white);
+    max-width: 800px;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.25s forwards;
+  }
+  .page-hero h1 em { font-style: normal; color: var(--accent-light); }
+  .page-hero p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.5);
+    max-width: 580px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.4s forwards;
+  }
+
+  /* ── COMMONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3.5vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--black);
+    margin-bottom: 0.75rem;
+  }
+  .section-heading.light { color: var(--white); }
+  .section-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--mid);
+    max-width: 600px;
+  }
+
+  /* ── CORE PRODUCTS ── */
+  .core-products {
+    padding: 90px 5vw;
+    background: var(--white);
+  }
+
+  .products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  /* Featured product — full width */
+  .product-featured {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 0;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.25s;
+  }
+  .product-featured:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.1); }
+
+  .product-featured-img {
+    width: 100%;
+    height: 100%;
+    min-height: 230px;
+    max-height: 300px;
+    object-fit: contain;
+    display: block;
+    background: #f7f7f7;
+    padding: 0.75rem;
+  }
+
+  .product-featured-body {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--off-white);
+  }
+
+  .product-logo {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+    object-position: left;
+    display: block;
+    margin-bottom: 1.25rem;
+    filter: none;
+  }
+
+  .product-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .product-name {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    color: var(--black);
+  }
+
+  .product-desc {
+    font-size: 0.925rem;
+    line-height: 1.7;
+    color: var(--mid);
+    margin-bottom: 1.5rem;
+  }
+
+  .product-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-display);
+  }
+  .product-link:hover { color: var(--accent-light); }
+
+  /* Standard product grid */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .product-card {
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.25s, transform 0.2s;
+  }
+  .product-card:hover {
+    box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+    transform: translateY(-3px);
+  }
+
+  .product-card-img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    display: block;
+    background: #f7f7f7;
+    padding: 0.5rem;
+  }
+
+  .product-card-body {
+    padding: 1.15rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-card-logo {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+    object-position: left;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .product-card-name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-card-desc {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--mid);
+    flex: 1;
+  }
+
+  .product-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-top: 1rem;
+    text-decoration: none;
+    font-family: var(--font-display);
+  }
+
+  /* ── ADD-ONS ── */
+  .addons {
+    padding: 90px 5vw;
+    background: var(--dark);
+  }
+
+  .addons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 3.5rem;
+  }
+
+  .addon-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.25s, background 0.25s;
+    display: flex;
+    flex-direction: column;
+  }
+  .addon-card:hover {
+    border-color: rgba(249,115,22,0.35);
+    background: rgba(232,93,4,0.05);
+  }
+
+  .addon-card-img {
+    width: 100%;
+    height: 130px;
+    object-fit: contain;
+    display: block;
+    opacity: 1;
+    background: #101010;
+    padding: 0.5rem;
+  }
+
+  .addon-card-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+
+  .addon-card-logo {
+    height: 24px;
+    width: auto;
+    object-fit: contain;
+    object-position: left;
+    display: block;
+    margin-bottom: 0.65rem;
+    opacity: 1;
+  }
+
+  .addon-card-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+
+  .addon-card-desc {
+    font-size: 0.825rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.4);
+    flex: 1;
+  }
+
+  .addon-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--accent-light);
+    margin-top: 0.85rem;
+    text-decoration: none;
+    font-family: var(--font-display);
+  }
+
+  /* ── ECOSYSTEM DIAGRAM ── */
+  .ecosystem {
+    padding: 90px 5vw;
+    background: var(--off-white);
+    text-align: center;
+  }
+
+  .ecosystem-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border-light);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 3.5rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .eco-item {
+    background: var(--white);
+    padding: 1.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .eco-icon { font-size: 1.75rem; }
+  .eco-name {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--black);
+    text-align: center;
+  }
+  .eco-desc {
+    font-size: 0.75rem;
+    color: var(--mid);
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* ── CTA ── */
+  .cta-band {
+    background: var(--dark);
+    padding: 90px 5vw;
+    text-align: center;
+  }
+  .cta-band h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--white);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .cta-band h2 em { font-style: normal; color: var(--accent-light); }
+  .cta-band p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--white);
+    padding: 0.875rem 2rem;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    padding: 70px 5vw 40px;
+    border-top: 1px solid var(--border);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-brand { font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--white); margin-bottom: 0.75rem; }
+  .footer-brand span { color: var(--accent-light); }
+  .footer-tagline { font-size: 0.875rem; color: rgba(255,255,255,0.35); line-height: 1.6; max-width: 280px; }
+  .footer-contact { margin-top: 1.5rem; font-size: 0.875rem; color: rgba(255,255,255,0.5); line-height: 1.8; }
+  .footer-contact a { color: var(--accent-light); text-decoration: none; }
+  .footer-col-title { font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 1rem; }
+  .footer-links { list-style: none; }
+  .footer-links li + li { margin-top: 0.5rem; }
+  .footer-links a { font-size: 0.875rem; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; flex-wrap: wrap; gap: 1rem; }
+  .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.25); }
+  .footer-legal { display: flex; gap: 1.5rem; }
+  .footer-legal a { font-size: 0.8rem; color: rgba(255,255,255,0.25); text-decoration: none; transition: color 0.2s; }
+  .footer-legal a:hover { color: rgba(255,255,255,0.6); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    .product-featured { grid-template-columns: 1fr; }
+    .product-featured-img { min-height: 220px; }
+    .ecosystem-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-mobile-toggle { display: flex; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .footer-top { grid-template-columns: 1fr; }
+    .ecosystem-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .solutions-intro {
+    background:
+      radial-gradient(circle at 78% 16%, rgba(255, 106, 0, 0.42), transparent 28%),
+      radial-gradient(circle at 58% 84%, rgba(255, 106, 0, 0.2), transparent 34%),
+      linear-gradient(120deg, #080808 0%, #101010 45%, #231105 100%);
+    padding: 102px 5vw 26px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .solutions-intro::after {
+    display: none;
+  }
+  .solutions-intro-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.72fr) minmax(360px, 1.28fr);
+    gap: 3rem;
+    align-items: center;
+    max-width: 1360px;
+    margin: 0 auto;
+  }
+  .solutions-intro h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.35vw, 4.15rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.02;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .solutions-intro h1 em {
+    color: var(--accent-light);
+    font-style: normal;
+  }
+  .solutions-intro p {
+    color: rgba(255,255,255,0.58);
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 580px;
+  }
+  .solutions-hero-media {
+    min-height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .solutions-hero-media img {
+    width: 100%;
+    height: auto !important;
+    max-height: 360px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 24px 44px rgba(0,0,0,0.36));
+  }
+
+  .solution-catalog {
+    padding: 42px 5vw 82px;
+    background: #efefed;
+  }
+  .solution-catalog-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .solution-catalog-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 1.75rem;
+  }
+  .solution-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.45rem;
+  }
+  .solution-tile {
+    min-height: 0;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .solution-tile-inner {
+    position: relative;
+    height: 100%;
+    min-height: 0;
+    border: 1px solid rgba(15, 15, 15, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fbfaf7;
+    box-shadow:
+      0 1px 0 rgba(15, 15, 15, 0.04),
+      0 12px 28px rgba(15, 15, 15, 0.05);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  }
+  .solution-tile:hover .solution-tile-inner,
+  .solution-tile:focus-visible .solution-tile-inner {
+    transform: translateY(-3px);
+    border-color: rgba(255, 106, 0, 0.58);
+    box-shadow:
+      0 18px 42px rgba(15, 15, 15, 0.1),
+      0 0 0 1px rgba(255, 106, 0, 0.16),
+      0 0 28px rgba(255, 106, 0, 0.22);
+  }
+  .solution-tile-media {
+    aspect-ratio: 16 / 8.6;
+    height: auto;
+    background: #f2f1ee;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(15, 15, 15, 0.08);
+    margin-bottom: 0;
+  }
+  .solution-tile-media img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .solution-tile-body {
+    min-height: 0;
+    padding: 1.1rem 1.1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .solution-tile-name {
+    display: none;
+  }
+  .solution-tile-logo {
+    display: block;
+    max-width: 250px;
+    width: 100%;
+    height: 36px;
+    object-fit: contain;
+    object-position: left;
+    margin-bottom: 0.75rem;
+  }
+  .solution-tile-logo[src*="touchkitchen-cropped"] {
+    max-width: 205px;
+    height: 31px;
+  }
+  .solution-tile-tag {
+    color: var(--accent);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    line-height: 1.35;
+    text-transform: uppercase;
+    margin-bottom: 0.55rem;
+  }
+  .solution-tile-desc {
+    color: var(--mid);
+    font-size: 0.96rem;
+    line-height: 1.58;
+    flex: 1;
+  }
+  .solution-tile-link {
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-top: 1rem;
+  }
+  .solution-tile-detail {
+    display: none;
+  }
+  .solution-tile:hover .solution-tile-detail,
+  .solution-tile:focus-visible .solution-tile-detail {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .solution-tile-detail h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.55rem;
+  }
+  .solution-tile-detail p {
+    color: rgba(255,255,255,0.72);
+    font-size: 0.9rem;
+    line-height: 1.58;
+    margin-bottom: 1rem;
+  }
+  .solution-tile-detail span {
+    color: var(--accent-light);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.88rem;
+  }
+  .ecosystem-clean {
+    padding: 72px 5vw;
+    background: var(--white);
+  }
+
+  @media (max-width: 980px) {
+    .solutions-intro-inner {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .solutions-hero-media {
+      min-height: 0;
+    }
+    .solutions-hero-media img {
+      max-height: 300px;
+    }
+    .solution-catalog-header {
+      display: block;
+    }
+    .solution-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 620px) {
+    .solutions-intro {
+      padding: 96px 5vw 26px;
+    }
+    .solutions-hero-media {
+      display: none;
+    }
+    .solution-grid {
+      grid-template-columns: 1fr;
+    }
+    .solution-tile,
+    .solution-tile-inner {
+      min-height: 0;
+    }
+    .solution-tile-detail {
+      position: static;
+      opacity: 1;
+      transform: none;
+      background: var(--dark);
+      padding: 1rem;
+    }
+    .solution-tile-body {
+      min-height: 0;
+    }
+  }
+</style>
+<link rel="stylesheet" href="assets/css/style.css">
+
+<link rel="stylesheet" href="assets/css/site-shell-v2.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></a>
+  <ul class="nav-links">
+    <li class="has-dropdown">
+      <a href="industries.html">Industries</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="industries/hospitality.html">Hospitality</a>
+          <a href="industries/retail.html">Retail</a>
+          <a href="industries/venues.html">Venues &amp; Events</a>
+          <a href="industries/services.html">Services</a>
+        </div>
+      </div>
+    </li>
+    <li class="has-dropdown">
+      <a href="solutions.html">Solutions</a>
+      <div class="nav-dropdown wide">
+        <div class="nav-dropdown-inner">
+          <a href="solutions/touchpoint.html">TouchPoint</a>
+          <a href="solutions/touchpoint-lite.html">TouchPoint Lite</a>
+          <a href="solutions/touchoffice.html">TouchOffice Web</a>
+          <a href="solutions/pockettouch.html">PocketTouch</a>
+          <a href="solutions/bytable.html">ByTable</a>
+          <a href="solutions/touchkitchen.html">TouchKitchen</a>
+          <a href="solutions/selfservice.html">SelfService</a>
+          <a href="solutions/touchstock.html">TouchStock</a>
+          <a href="solutions/touchreservation.html">TouchReservation</a>
+          <a href="solutions/collectionpoint.html">CollectionPoint</a>
+          <div class="dd-divider"></div>
+          <div class="dd-view-all"><a href="solutions.html">View all solutions &rarr;</a></div>
+        </div>
+      </div>
+    </li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- INTRO -->
+<section class="solutions-intro">
+  <div class="solutions-intro-inner">
+    <div class="reveal">
+      <p class="hero-eyebrow">Software solutions</p>
+      <h1>All the tools.<br><em>Easy to compare.</em></h1>
+      <p>Explore the full Prime-EPOS software range in one place. Every card links to a dedicated page, so you can quickly see what each solution does and how it fits into the wider ecosystem.</p>
+    </div>
+    <div class="solutions-hero-media reveal" style="transition-delay:0.1s">
+      <img src="assets/images/site/solutions-ecosystem.png" alt="Connected EPoS software ecosystem across till, menu, kitchen, collection, stock, handheld and kiosk screens">
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION CATALOG -->
+<section class="solution-catalog">
+  <div class="solution-catalog-inner">
+    <div class="solution-catalog-header reveal">
+      <div>
+        <p class="section-label">Complete range</p>
+        <h2 class="section-heading">Find the right solution.</h2>
+      </div>
+    </div>
+
+    <div class="solution-grid reveal" style="transition-delay:0.1s">
+      <a href="solutions/touchpoint.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchpoint/image-2.jpg" alt="TouchPoint"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchpoint.png" alt="TouchPoint logo"><h3 class="solution-tile-name">TouchPoint</h3><p class="solution-tile-tag">Bespoke EPoS</p><p class="solution-tile-desc">The main till system for fast, flexible sales, staff control, reporting, and day-to-day trading.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchPoint</h3><p>The heart of the setup. Built for single tills, busy hospitality sites, retail counters, and multi-site estates.</p><span>Open TouchPoint &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchpoint-lite.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchpoint-lite/image-3.jpg" alt="TouchPoint Lite"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchpointlite.png" alt="TouchPoint Lite logo"><h3 class="solution-tile-name">TouchPoint Lite</h3><p class="solution-tile-tag">Lightweight EPoS</p><p class="solution-tile-desc">A portable, tablet-friendly way to run orders and sales without losing the core TouchPoint features.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchPoint Lite</h3><p>Ideal where space, speed, or portability matters: pop-ups, small counters, mobile teams, and flexible service points.</p><span>Open TouchPoint Lite &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchoffice.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchoffice/image-2.jpg" alt="TouchOffice Web"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchoffice.png" alt="TouchOffice Web logo"><h3 class="solution-tile-name">TouchOffice Web</h3><p class="solution-tile-tag">Cloud back office</p><p class="solution-tile-desc">Manage prices, products, users, and sales reporting from anywhere with real-time business data.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchOffice Web</h3><p>Your back office in the browser, built for owners and managers who need control away from the till.</p><span>Open TouchOffice Web &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/pockettouch.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/pockettouch/image-3.jpg" alt="PocketTouch"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/pockettouch.png" alt="PocketTouch logo"><h3 class="solution-tile-name">PocketTouch</h3><p class="solution-tile-tag">Handheld ordering</p><p class="solution-tile-desc">Let staff take orders at the table, send them to the kitchen, split bills, and keep service moving.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>PocketTouch</h3><p>For front-of-house teams that need faster ordering, fewer mistakes, and less walking back to the till.</p><span>Open PocketTouch &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/bytable.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/bytable/image-2.jpg" alt="ByTable"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/bytable.png" alt="ByTable logo"><h3 class="solution-tile-name">ByTable</h3><p class="solution-tile-tag">Order-to-table</p><p class="solution-tile-desc">Customer ordering from their own phone, fully branded and connected directly to your EPoS.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>ByTable</h3><p>Perfect for pubs, restaurants, hotels, and venues that want phone ordering without commission.</p><span>Open ByTable &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchkitchen.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchkitchen/image-2.jpg" alt="TouchKitchen"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchkitchen-cropped.png" alt="TouchKitchen logo"><h3 class="solution-tile-name">TouchKitchen</h3><p class="solution-tile-tag">Kitchen management</p><p class="solution-tile-desc">Replace printed tickets with live kitchen screens that keep orders clear, timed, and organised.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchKitchen</h3><p>Orders appear instantly, staff mark them off in real time, and busy kitchens stay coordinated.</p><span>Open TouchKitchen &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/selfservice.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/selfservice/image-2.jpg" alt="SelfService"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/selfservice.png" alt="SelfService logo"><h3 class="solution-tile-name">SelfService</h3><p class="solution-tile-tag">Kiosk ordering</p><p class="solution-tile-desc">Customer-facing self-ordering for faster queues, higher spend, and smoother high-volume service.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>SelfService</h3><p>Great for fast food, canteens, venues, and any business that needs customers to order quickly.</p><span>Open SelfService &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchreservation.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchreservation/image-2.jpg" alt="TouchReservation"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchreservations.png" alt="TouchReservation logo"><h3 class="solution-tile-name">TouchReservation</h3><p class="solution-tile-tag">Online reservations</p><p class="solution-tile-desc">Take table bookings around the clock with confirmations, allocation, and EPoS integration.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchReservation</h3><p>Turn online bookings into an organised service plan before guests even arrive.</p><span>Open TouchReservation &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchstock.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchstock/image-2.jpg" alt="TouchStock"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchstock.png" alt="TouchStock logo"><h3 class="solution-tile-name">TouchStock</h3><p class="solution-tile-tag">Stock management</p><p class="solution-tile-desc">Count, scan, label, and manage stock with clearer control over waste, margins, and availability.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchStock</h3><p>For businesses that need tighter stock counts, fewer errors, and better visibility across products.</p><span>Open TouchStock &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/collectionpoint.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/collectionpoint/image-3.jpg" alt="CollectionPoint"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/collectionpoint.png" alt="CollectionPoint logo"><h3 class="solution-tile-name">CollectionPoint</h3><p class="solution-tile-tag">Order collection</p><p class="solution-tile-desc">Customer-facing order status screens that reduce questions and keep collection points flowing.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>CollectionPoint</h3><p>Show customers when orders are being prepared and when they are ready to collect.</p><span>Open CollectionPoint &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchtakeaway.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchtakeaway/image-2.jpg" alt="TouchTakeaway"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchtakeaway.png" alt="TouchTakeaway logo"><h3 class="solution-tile-name">TouchTakeaway</h3><p class="solution-tile-tag">Online ordering</p><p class="solution-tile-desc">Delivery and click-and-collect ordering that syncs to the till with no commission on orders.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchTakeaway</h3><p>Own your online ordering channel and send orders straight into the EPoS workflow.</p><span>Open TouchTakeaway &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchmenu.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchmenu/image-2.jpg" alt="TouchMenu"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchmenu.png" alt="TouchMenu logo"><h3 class="solution-tile-name">TouchMenu</h3><p class="solution-tile-tag">Digital menus</p><p class="solution-tile-desc">Digital menu displays that update quickly, highlight promotions, and support live product changes.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchMenu</h3><p>Keep menus current without reprinting, and make promotions easier to manage across screens.</p><span>Open TouchMenu &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchtopup.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchtopup/image-2.jpg" alt="TouchTopUp"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchtopup.png" alt="TouchTopUp logo"><h3 class="solution-tile-name">TouchTopUp</h3><p class="solution-tile-tag">Cashless top-ups</p><p class="solution-tile-desc">Pre-paid accounts and cards for schools, venues, and events where faster cashless service matters.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchTopUp</h3><p>Reduce cash handling while giving customers a simple way to top up and spend.</p><span>Open TouchTopUp &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/ticketing.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/ticketing/image-3.jpg" alt="Ticketing"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/ticketing.png" alt="Ticketing logo"><h3 class="solution-tile-name">Ticketing</h3><p class="solution-tile-tag">Event ticketing</p><p class="solution-tile-desc">Sell and manage event tickets across channels with useful reporting and flexible ticket types.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>Ticketing</h3><p>Built for venues and events that need ticket sales connected to the wider operating setup.</p><span>Open Ticketing &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/digital-signage.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/digital-signage/image-2.jpg" alt="Digital Signage"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/digitalsignage.png" alt="Digital Signage logo"><h3 class="solution-tile-name">Digital Signage</h3><p class="solution-tile-tag">Digital signage</p><p class="solution-tile-desc">Promotional screens for offers, menus, customer messaging, and richer in-store communication.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>Digital Signage</h3><p>Use connected screens to show offers, promote products, and keep customer-facing content fresh.</p><span>Open Digital Signage &rarr;</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEM -->
+<section class="ecosystem-clean reveal">
+  <p class="section-label">How it all fits together</p>
+  <h2 class="section-heading">Every piece works as one.</h2>
+  <p class="section-sub" style="margin-top: 0.75rem">Start with what you need now, then add the tools that make service faster, reporting clearer, and operations easier to manage.</p>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></div>
+      <p class="footer-tagline">Professional EPoS solutions for UK businesses. Hardware that lasts. Software that works. Support that's actually here.</p>
+      <div class="footer-contact">
+        <div>Phone: <a href="tel:07947246247">07947 246247</a></div>
+        <div>Email: <a href="mailto:info@prime-epos.co.uk">info@prime-epos.co.uk</a></div>
+        <div>Support: 24/7 support available</div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Industries</div>
+      <ul class="footer-links">
+        <li><a href="industries/hospitality.html">Hospitality</a></li>
+        <li><a href="industries/retail.html">Retail</a></li>
+        <li><a href="industries/venues.html">Venues &amp; Events</a></li>
+        <li><a href="industries/services.html">Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Solutions</div>
+      <ul class="footer-links">
+        <li><a href="solutions/touchpoint.html">TouchPoint</a></li>
+        <li><a href="solutions/touchoffice.html">TouchOffice Web</a></li>
+        <li><a href="solutions/pockettouch.html">PocketTouch</a></li>
+        <li><a href="solutions.html">View all</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="products.html">Hardware</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="status.html">System Status</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">&copy; 2026 Prime-EPOS. All rights reserved. Registered in England &amp; Wales.</p>
+    <div class="footer-legal">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.07 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

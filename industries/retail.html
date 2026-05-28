@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail EPoS Solutions — Prime-EPOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+  /* Features grid */
+  .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.25rem; margin-top: 3rem; }
+  .feat-card { background: var(--white); border: 1px solid var(--border-light); border-radius: 12px; padding: 1.75rem; }
+  .feat-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.07); }
+  .feat-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .feat-text { font-size: 0.875rem; line-height: 1.65; color: var(--mid); }
+
+  /* Venue type cards */
+  .venue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 1rem; margin-top: 3rem; }
+  .venue-card { background: var(--dark2); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; transition: border-color 0.2s, background 0.2s; }
+  .venue-card:hover { border-color: rgba(249,115,22,0.4); background: rgba(232,93,4,0.06); }
+  .venue-card-name { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--white); margin-top: 0.75rem; }
+
+  /* Split section */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .split img { width: 100%; border-radius: 14px; object-fit: cover; aspect-ratio: 4/3; display: block; }
+  .split-text p { font-size: 1rem; line-height: 1.8; color: var(--mid); margin-bottom: 1rem; }
+  .split-text p strong { color: var(--black); font-weight: 600; }
+  @media (max-width: 900px) { .split { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+  /* Solutions strip */
+  .sol-strip { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+  .sol-chip { font-size: 0.8rem; font-weight: 600; padding: 0.4rem 1rem; border-radius: 100px; background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(232,93,4,0.2); text-decoration: none; transition: background 0.2s; }
+  .sol-chip:hover { background: rgba(232,93,4,0.2); }
+  .sol-chip.dark { background: rgba(249,115,22,0.1); color: var(--accent-light); border-color: rgba(249,115,22,0.2); }
+  .sol-chip.dark:hover { background: rgba(249,115,22,0.18); }
+</style>
+
+<link rel="stylesheet" href="../assets/css/site-shell-v2.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../index.html" class="nav-logo pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></a>
+  <ul class="nav-links">
+    <li class="has-dropdown">
+      <a href="../industries.html">Industries</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="../industries/hospitality.html">Hospitality</a>
+          <a href="../industries/retail.html">Retail</a>
+          <a href="../industries/venues.html">Venues &amp; Events</a>
+          <a href="../industries/services.html">Services</a>
+        </div>
+      </div>
+    </li>
+    <li class="has-dropdown">
+      <a href="../solutions.html">Solutions</a>
+      <div class="nav-dropdown wide">
+        <div class="nav-dropdown-inner">
+          <a href="../solutions/touchpoint.html">TouchPoint</a>
+          <a href="../solutions/touchpoint-lite.html">TouchPoint Lite</a>
+          <a href="../solutions/touchoffice.html">TouchOffice Web</a>
+          <a href="../solutions/pockettouch.html">PocketTouch</a>
+          <a href="../solutions/bytable.html">ByTable</a>
+          <a href="../solutions/touchkitchen.html">TouchKitchen</a>
+          <a href="../solutions/selfservice.html">SelfService</a>
+          <a href="../solutions/touchstock.html">TouchStock</a>
+          <a href="../solutions/touchreservation.html">TouchReservation</a>
+          <a href="../solutions/collectionpoint.html">CollectionPoint</a>
+          <div class="dd-divider"></div>
+          <div class="dd-view-all"><a href="../solutions.html">View all solutions &rarr;</a></div>
+        </div>
+      </div>
+    </li>
+    <li><a href="../products.html">Products</a></li>
+    <li><a href="../pricing.html">Pricing</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../contact.html" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero industry-hero">
+  <div class="industry-hero-inner">
+    <div class="industry-hero-copy">
+      <p class="hero-eyebrow">Retail EPoS</p>
+      <h1>Smarter retail starts<br><em>at the till.</em></h1>
+      <p>Connect your stock, loyalty, and sales data into one reliable system, whether you're running one shop or fifty.</p>
+    </div>
+    <div class="industry-hero-media">
+      <img src="../assets/images/industries/retail.jpg" alt="Retail EPoS reporting and stock management">
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOMER LOGOS -->
+<section class="customer-ticker" aria-label="Customers using our services">
+  <div class="customer-ticker-header">
+    <p class="section-label">Trusted by teams across the UK</p>
+  </div>
+  <div class="customer-ticker-track">
+      <div class="customer-logo-item"><img src="../assets/images/customers/black-country-ales-logo-1200.png" alt="black country ales logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/c9a467ad-47e8-44f2-97bb-6336eb6c68e2-1.png" alt="c9a467ad 47e8 44f2 97bb 6336eb6c68e2"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/cardzone-new.png" alt="cardzone"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Clintons-Logo_Colour_800x400px.png" alt="Clintons Logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Club-logo-800x400-1.png" alt="Club logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-AFCBournemouth.png" alt="AFCBournemouth"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-BAFTA.png" alt="BAFTA"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-BobBerts.png" alt="BobBerts"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-British-Library.png" alt="British Library"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-CambridgeUniversity.png" alt="CambridgeUniversity"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-ChoiceHotels.png" alt="ChoiceHotels"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-ChurchillsFishChips.png" alt="ChurchillsFishChips"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-HallWoodhouse.png" alt="HallWoodhouse"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-Heineken.png" alt="Heineken"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-HollywoodBakery.png" alt="HollywoodBakery"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-PortsmouthFC.png" alt="PortsmouthFC"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-Silverstone.png" alt="Silverstone"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-Tiptree.png" alt="Tiptree"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/fullers-footer.png" alt="fullers"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/kokoro__logo-black_800x400px.png" alt="kokoro logo black"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/LifeboatsBlueRGB_800x400px.png" alt="Lifeboats"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/logo (5).png" alt="logo (5)"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Map_WetherbyWhalerLogo_3-Tom-Harvey-copy.png" alt="Map WetherbyWhalerLogo 3 Tom Harvey copy"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/MJ-logo-800x400-1.png" alt="MJ logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Papa-Johns-Pizza-Logo.png" alt="Papa Johns Pizza Logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Shepherd-Neame_Logo_800x400px.png" alt="Shepherd Neame Logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/St-Austell-Brewery-Logo-Positive-1.png" alt="St Austell Brewery Logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Stout_Stone_Logo_800x400px-1-1.png" alt="Stout Stone Logo 1"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Supermacs-Logo-800x400px.png" alt="Supermacs Logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/black-country-ales-logo-1200.png" alt="black country ales logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/c9a467ad-47e8-44f2-97bb-6336eb6c68e2-1.png" alt="c9a467ad 47e8 44f2 97bb 6336eb6c68e2"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/cardzone-new.png" alt="cardzone"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Clintons-Logo_Colour_800x400px.png" alt="Clintons Logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Club-logo-800x400-1.png" alt="Club logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-AFCBournemouth.png" alt="AFCBournemouth"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-BAFTA.png" alt="BAFTA"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-BobBerts.png" alt="BobBerts"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-British-Library.png" alt="British Library"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-CambridgeUniversity.png" alt="CambridgeUniversity"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-ChoiceHotels.png" alt="ChoiceHotels"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-ChurchillsFishChips.png" alt="ChurchillsFishChips"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-HallWoodhouse.png" alt="HallWoodhouse"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-Heineken.png" alt="Heineken"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-HollywoodBakery.png" alt="HollywoodBakery"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-PortsmouthFC.png" alt="PortsmouthFC"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-Silverstone.png" alt="Silverstone"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Customer-logos-800x400-Tiptree.png" alt="Tiptree"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/fullers-footer.png" alt="fullers"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/kokoro__logo-black_800x400px.png" alt="kokoro logo black"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/LifeboatsBlueRGB_800x400px.png" alt="Lifeboats"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/logo (5).png" alt="logo (5)"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Map_WetherbyWhalerLogo_3-Tom-Harvey-copy.png" alt="Map WetherbyWhalerLogo 3 Tom Harvey copy"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/MJ-logo-800x400-1.png" alt="MJ logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Papa-Johns-Pizza-Logo.png" alt="Papa Johns Pizza Logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Shepherd-Neame_Logo_800x400px.png" alt="Shepherd Neame Logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/St-Austell-Brewery-Logo-Positive-1.png" alt="St Austell Brewery Logo"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Stout_Stone_Logo_800x400px-1-1.png" alt="Stout Stone Logo 1"></div>
+      <div class="customer-logo-item"><img src="../assets/images/customers/Supermacs-Logo-800x400px.png" alt="Supermacs Logo"></div>
+  </div>
+</section>
+
+<!-- VENUE TYPES -->
+<section style="padding: var(--section-pad); background: var(--dark);">
+  <div class="reveal">
+    <p class="section-label" style="color:var(--accent-light)">Who we work with</p>
+    <h2 class="section-heading light">Every type of retail business,<br>covered.</h2>
+  </div>
+  <div class="venue-grid reveal" style="transition-delay:0.1s">
+    <div class="venue-card"><div class="venue-card-name">Supermarkets</div></div>
+<div class="venue-card"><div class="venue-card-name">Convenience Stores</div></div>
+<div class="venue-card"><div class="venue-card-name">Shopping Centres</div></div>
+<div class="venue-card"><div class="venue-card-name">Farm Shops</div></div>
+<div class="venue-card"><div class="venue-card-name">Boutiques</div></div>
+<div class="venue-card"><div class="venue-card-name">Pop-Up Shops</div></div>
+<div class="venue-card"><div class="venue-card-name">Off-Licences</div></div>
+<div class="venue-card"><div class="venue-card-name">Florists</div></div>
+<div class="venue-card"><div class="venue-card-name">Newsagents</div></div>
+<div class="venue-card"><div class="venue-card-name">Toy Shops</div></div>
+<div class="venue-card"><div class="venue-card-name">Garden Centres</div></div>
+<div class="venue-card"><div class="venue-card-name">Jewellers</div></div>
+
+  </div>
+</section>
+
+<!-- SPLIT SECTION -->
+<section style="padding: var(--section-pad); background: var(--white);">
+  <div class="split reveal">
+    <div class="split-text">
+      <p class="section-label">Why it works</p>
+      <h2 class="section-heading" style="margin-bottom:1.5rem;">Every product. Every sale. Every site. One system.</h2>
+      <p>Retail EPoS isn't just a till — it's the control centre for your whole business. Stock, staff, customers, and cash, all in one connected system.</p><p><strong>Multi-site operators love it.</strong> Push a pricing change to all stores instantly, compare performance across locations, and manage everything from your phone.</p>
+      <div class="sol-strip"><a href="../solutions/touchpoint.html" class="sol-chip">TouchPoint</a><a href="../solutions/touchoffice.html" class="sol-chip">TouchOffice Web</a><a href="../solutions/touchstock.html" class="sol-chip">TouchStock</a><a href="../solutions/selfservice.html" class="sol-chip">SelfService</a></div>
+    </div>
+    <img src="../assets/images/icrtouch/touchoffice/image-2.jpg" alt="Retail EPoS">
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section style="padding: var(--section-pad); background: var(--off-white);">
+  <div class="reveal">
+    <p class="section-label">Key features</p>
+    <h2 class="section-heading">Built for the demands<br>of your business.</h2>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card reveal" style="transition-delay:0.00s"><div class="feat-title">Barcode scanning & stock</div><p class="feat-text">Fast scanning, real-time stock levels, and reorder alerts. Always know what's on the shelf and what needs ordering.</p></div>
+<div class="feat-card reveal" style="transition-delay:0.07s"><div class="feat-title">Customer loyalty</div><p class="feat-text">Points schemes, digital rewards, and targeted promotions that keep customers coming back.</p></div>
+<div class="feat-card reveal" style="transition-delay:0.14s"><div class="feat-title">Age verification</div><p class="feat-text">Automatic prompts for restricted items — Challenge 25, Challenge 21, or custom age checks built in.</p></div>
+<div class="feat-card reveal" style="transition-delay:0.21s"><div class="feat-title">Multi-site management</div><p class="feat-text">Manage pricing, promotions, and stock across all your locations from one cloud back office.</p></div>
+<div class="feat-card reveal" style="transition-delay:0.28s"><div class="feat-title">Ecommerce integration</div><p class="feat-text">Sync your online and in-store stock automatically. Sell everywhere, manage it all in one place.</p></div>
+<div class="feat-card reveal" style="transition-delay:0.35s"><div class="feat-title">Detailed reporting</div><p class="feat-text">Margin analysis, bestseller reports, hourly trading summaries — all the data you need to make better decisions.</p></div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band reveal">
+  <h2>Ready to talk about<br><em>retail?</em></h2>
+  <p>Tell us about your business and we'll recommend exactly the right setup.</p>
+  <a href="../contact.html" class="btn-primary">Get a free quote →</a>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></div>
+      <p class="footer-tagline">Professional EPoS solutions for UK businesses. Hardware that lasts. Software that works. Support that's actually here.</p>
+      <div class="footer-contact">
+        <div>Phone: <a href="tel:07947246247">07947 246247</a></div>
+        <div>Email: <a href="mailto:info@prime-epos.co.uk">info@prime-epos.co.uk</a></div>
+        <div>Support: 24/7 support available</div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Industries</div>
+      <ul class="footer-links">
+        <li><a href="../industries/hospitality.html">Hospitality</a></li>
+        <li><a href="../industries/retail.html">Retail</a></li>
+        <li><a href="../industries/venues.html">Venues &amp; Events</a></li>
+        <li><a href="../industries/services.html">Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Solutions</div>
+      <ul class="footer-links">
+        <li><a href="../solutions/touchpoint.html">TouchPoint</a></li>
+        <li><a href="../solutions/touchoffice.html">TouchOffice Web</a></li>
+        <li><a href="../solutions/pockettouch.html">PocketTouch</a></li>
+        <li><a href="../solutions.html">View all</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="../about.html">About Us</a></li>
+        <li><a href="../pricing.html">Pricing</a></li>
+        <li><a href="../products.html">Hardware</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+        <li><a href="../status.html">System Status</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">&copy; 2026 Prime-EPOS. All rights reserved. Registered in England &amp; Wales.</p>
+    <div class="footer-legal">
+      <a href="../privacy.html">Privacy Policy</a>
+      <a href="../cookies.html">Cookies</a>
+      <a href="../terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

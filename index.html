@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime-EPOS — The Complete EPoS Solution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+
+/* ── HOMEPAGE SPECIFIC ── */
+
+/* HERO */
+.hero {
+  min-height: 92vh;
+  background: #0a0a0a;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 100px 6vw 60px;
+  gap: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 50%, rgba(232,93,4,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(232,93,4,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-left { position: relative; z-index: 1; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(232,93,4,0.12);
+  border: 1px solid rgba(232,93,4,0.25);
+  color: #f97316;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+  border-radius: 100px;
+  margin-bottom: 1.75rem;
+  opacity: 0;
+  animation: fadeUp 0.6s 0.1s forwards;
+}
+
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: #f97316;
+  border-radius: 50%;
+}
+
+.hero-h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.8rem, 5vw, 4.75rem);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 0.6s 0.2s forwards;
+}
+
+/* Word cycling element */
+.hero-word-wrap {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.6s 0.3s forwards;
+  /* Height = line-height of one word. We set this explicitly */
+  height: calc(clamp(2.8rem, 5vw, 4.75rem) * 1.05);
+}
+
+.hero-word-inner {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.hero-word {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.8rem, 5vw, 4.75rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: #f97316;
+  flex-shrink: 0;
+  display: block;
+}
+
+.hero-sub {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.5);
+  max-width: 460px;
+  margin-bottom: 2.25rem;
+  opacity: 0;
+  animation: fadeUp 0.6s 0.4s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.6s 0.5s forwards;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  opacity: 0;
+  animation: fadeUp 0.6s 0.65s forwards;
+  flex-wrap: wrap;
+}
+
+.hero-stat-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.35);
+  margin-top: 0.25rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Hero right — image collage */
+.hero-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.8s 0.5s forwards;
+}
+
+.hero-img-main {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+}
+
+/* ── TICKER ── */
+.ticker {
+  background: #e85d04;
+  padding: 0.75rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ticker-inner { display: inline-flex; gap: 0; animation: ticker 30s linear infinite; }
+.ticker-item {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  padding: 0 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+.ticker-item::after { content: '·'; color: rgba(255,255,255,0.4); }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── WHY US ── */
+.why { padding: 80px 6vw; background: #fff; }
+
+.why-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 3rem;
+}
+
+.why-header-right {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #6b7280;
+  font-weight: 300;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: #e5e7eb;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.why-card {
+  background: #fff;
+  padding: 2rem 1.75rem;
+  transition: background 0.2s;
+}
+.why-card:hover { background: #fafafa; }
+
+.why-card-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #e85d04;
+  opacity: 0.15;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 1.25rem;
+}
+
+.why-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0e0e0e;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.why-text {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: #6b7280;
+}
+
+/* ── INDUSTRIES ── */
+.industries-section { padding: 80px 6vw; background: #0e0e0e; }
+
+.industries-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2.5rem;
+}
+
+.industries-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.industry-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 220px;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.3s;
+}
+.industry-card:hover { transform: translateY(-3px); }
+
+.industry-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s;
+}
+.industry-card:hover img { transform: scale(1.05); }
+
+.industry-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 60%);
+}
+
+.industry-card-body {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.25rem 1.25rem 1.1rem;
+}
+
+.industry-card-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+
+.industry-card-sub {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.55);
+}
+
+.industry-card-arrow {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  width: 28px; height: 28px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.6);
+  transition: background 0.2s, color 0.2s;
+}
+.industry-card:hover .industry-card-arrow { background: #e85d04; color: #fff; }
+
+/* ── SOLUTIONS STRIP ── */
+.solutions-strip { padding: 80px 6vw; background: #f5f4f1; }
+
+.solutions-strip-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.sol-scroll-wrap { overflow-x: auto; scrollbar-width: none; }
+.sol-scroll-wrap::-webkit-scrollbar { display: none; }
+
+.sol-cards {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.sol-card {
+  flex-shrink: 0;
+  width: 260px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.sol-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.08); transform: translateY(-2px); }
+
+.sol-card-img {
+  width: 100%; height: 150px;
+  object-fit: cover;
+  display: block;
+  background: #f0f0f0;
+}
+
+.sol-card-body { padding: 1.1rem 1.25rem 1.25rem; }
+
+.sol-card-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.01em;
+}
+
+.sol-card-desc {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: #6b7280;
+}
+
+.sol-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #e85d04;
+  margin-top: 0.75rem;
+  text-decoration: none;
+}
+
+/* ── SPLIT CTA ── */
+.split-cta {
+  background: #0e0e0e;
+  padding: 80px 6vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.split-cta-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+}
+
+.split-cta-text h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #fff;
+  margin-bottom: 1rem;
+  line-height: 1.15;
+}
+.split-cta-text h2 em { font-style: normal; color: #f97316; }
+
+.split-cta-text p {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.45);
+  font-weight: 300;
+  margin-bottom: 2rem;
+}
+
+/* ── TESTIMONIALS ── */
+.testimonials { padding: 80px 6vw; background: #fff; }
+
+.testimonials-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2.5rem;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.testimonial-card {
+  background: #f9f9f9;
+  border: 1px solid #efefef;
+  border-radius: 12px;
+  padding: 1.75rem;
+}
+
+.testimonial-stars {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 1rem;
+}
+.testimonial-stars span {
+  width: 14px; height: 14px;
+  background: #e85d04;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.testimonial-quote {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 1.25rem;
+  font-style: italic;
+}
+
+.testimonial-author { font-size: 0.85rem; font-weight: 600; color: #0e0e0e; }
+.testimonial-biz { font-size: 0.78rem; color: #9ca3af; margin-top: 0.15rem; }
+
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; padding: 100px 6vw 60px; }
+  .hero-right { display: none; }
+  .why-header { grid-template-columns: 1fr; gap: 1rem; }
+  .why-grid { grid-template-columns: 1fr 1fr; }
+  .industries-grid { grid-template-columns: 1fr 1fr; }
+  .split-cta { grid-template-columns: 1fr; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .industries-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+
+@media (max-width: 600px) {
+  .why-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<link rel="stylesheet" href="assets/css/site-shell-v2.css">
+</head>
+<body>
+
+<!-- NAV (will be replaced by shared nav from assets) -->
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></a>
+  <ul class="nav-links">
+    <li class="has-dropdown">
+      <a href="industries.html">Industries</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="industries/hospitality.html">Hospitality</a>
+          <a href="industries/retail.html">Retail</a>
+          <a href="industries/venues.html">Venues &amp; Events</a>
+          <a href="industries/services.html">Services</a>
+        </div>
+      </div>
+    </li>
+    <li class="has-dropdown">
+      <a href="solutions.html">Solutions</a>
+      <div class="nav-dropdown wide">
+        <div class="nav-dropdown-inner">
+          <a href="solutions/touchpoint.html">TouchPoint</a>
+          <a href="solutions/touchpoint-lite.html">TouchPoint Lite</a>
+          <a href="solutions/touchoffice.html">TouchOffice Web</a>
+          <a href="solutions/pockettouch.html">PocketTouch</a>
+          <a href="solutions/bytable.html">ByTable</a>
+          <a href="solutions/touchkitchen.html">TouchKitchen</a>
+          <a href="solutions/selfservice.html">SelfService</a>
+          <a href="solutions/touchstock.html">TouchStock</a>
+          <a href="solutions/touchreservation.html">TouchReservation</a>
+          <a href="solutions/collectionpoint.html">CollectionPoint</a>
+          <div class="dd-divider"></div>
+          <div class="dd-view-all"><a href="solutions.html">View all solutions &rarr;</a></div>
+        </div>
+      </div>
+    </li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">UK-Based EPoS Specialists</div>
+    <h1 class="hero-h1">The EPoS built for</h1>
+    <div class="hero-word-wrap" id="wordWrap">
+      <div class="hero-word-inner" id="wordInner">
+        <span class="hero-word" id="heroWord">Hospitality.</span>
+      </div>
+    </div>
+    <p class="hero-sub">Professional hardware that lasts. Software that works. A UK support team that actually picks up. Built for businesses that can't afford downtime.</p>
+    <div class="hero-actions">
+      <a href="contact.html" class="btn-primary">Get a free quote →</a>
+      <a href="solutions.html" class="btn-ghost">See all solutions</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">24/7</div>
+        <div class="hero-stat-label">UK Support</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">10+</div>
+        <div class="hero-stat-label">Years experience</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">100%</div>
+        <div class="hero-stat-label">Commercial-grade</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <img class="hero-img-main"
+      src="assets/images/site/icrtouch-products-2026.png"
+      alt="Prime-EPOS hardware and software setup">
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why">
+  <div class="why-header reveal">
+    <div>
+      <p class="section-label">Why Prime-EPOS</p>
+      <h2 class="section-heading">EPoS done properly.<br>No shortcuts.</h2>
+    </div>
+    <p class="why-header-right">Too many businesses get sold cheap hardware and left without support. We fix that — with commercial-grade equipment, honest advice, and a UK team that's always here.</p>
+  </div>
+  <div class="why-grid reveal" style="transition-delay:0.1s">
+    <div class="why-card">
+      <div class="why-card-num">01</div>
+      <div class="why-title">UK-Based Support</div>
+      <p class="why-text">Real people, based in the UK, available 24/7. No overseas call centres, no ticket queues, no waiting until Monday.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-card-num">02</div>
+      <div class="why-title">Hardware That Lasts</div>
+      <p class="why-text">Commercial-grade, POS-ready equipment only. Built for working businesses — not repurposed consumer tablets.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-card-num">03</div>
+      <div class="why-title">Right Tool for You</div>
+      <p class="why-text">We scope every solution to your business. No upsell, no one-size-fits-all — just what actually works for your sector.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-card-num">04</div>
+      <div class="why-title">Full Ecosystem</div>
+      <p class="why-text">Till, handhelds, kitchen screens, back office — everything connected through one system, all managed in one place.</p>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries-section">
+  <div class="industries-header reveal">
+    <div>
+      <p class="section-label" style="color:#f97316">Industries we serve</p>
+      <h2 class="section-heading light">Your sector. Your system.</h2>
+    </div>
+    <a href="industries.html" class="btn-ghost" style="flex-shrink:0">View all industries →</a>
+  </div>
+  <div class="industries-grid reveal" style="transition-delay:0.1s">
+    <a href="industries/hospitality.html" class="industry-card">
+      <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80&fit=crop" alt="Hospitality">
+      <div class="industry-card-overlay"></div>
+      <div class="industry-card-arrow">→</div>
+      <div class="industry-card-body">
+        <div class="industry-card-name">Hospitality</div>
+        <div class="industry-card-sub">Pubs, bars, restaurants, hotels</div>
+      </div>
+    </a>
+    <a href="industries/retail.html" class="industry-card">
+      <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80&fit=crop" alt="Retail">
+      <div class="industry-card-overlay"></div>
+      <div class="industry-card-arrow">→</div>
+      <div class="industry-card-body">
+        <div class="industry-card-name">Retail</div>
+        <div class="industry-card-sub">Shops, convenience stores, farm shops</div>
+      </div>
+    </a>
+    <a href="industries/venues.html" class="industry-card">
+      <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&q=80&fit=crop" alt="Venues">
+      <div class="industry-card-overlay"></div>
+      <div class="industry-card-arrow">→</div>
+      <div class="industry-card-body">
+        <div class="industry-card-name">Venues &amp; Events</div>
+        <div class="industry-card-sub">Stadiums, theatres, attractions</div>
+      </div>
+    </a>
+    <a href="industries/services.html" class="industry-card">
+      <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80&fit=crop" alt="Services">
+      <div class="industry-card-overlay"></div>
+      <div class="industry-card-arrow">→</div>
+      <div class="industry-card-body">
+        <div class="industry-card-name">Services</div>
+        <div class="industry-card-sub">Salons, gyms, spas, medical</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- SOLUTIONS STRIP -->
+<section class="solutions-strip">
+  <div class="solutions-strip-header reveal">
+    <div>
+      <p class="section-label">Software solutions</p>
+      <h2 class="section-heading">The tools that run<br>your business.</h2>
+    </div>
+    <a href="solutions.html" class="btn-primary" style="flex-shrink:0">View all →</a>
+  </div>
+  <div class="sol-scroll-wrap reveal" style="transition-delay:0.1s">
+    <div class="sol-cards">
+      <a href="solutions/touchpoint.html" class="sol-card">
+        <img class="sol-card-img" src="assets/images/solutions/media/touchpoint/hero.png" alt="TouchPoint">
+        <div class="sol-card-body">
+          <div class="sol-card-name">TouchPoint</div>
+          <p class="sol-card-desc">Bespoke EPoS software built over 20+ years. Fast, flexible, offline-resilient.</p>
+          <span class="sol-card-link">Learn more →</span>
+        </div>
+      </a>
+      <a href="solutions/touchoffice.html" class="sol-card">
+        <img class="sol-card-img" src="assets/images/solutions/media/touchoffice/hero.png" alt="TouchOffice Web">
+        <div class="sol-card-body">
+          <div class="sol-card-name">TouchOffice Web</div>
+          <p class="sol-card-desc">Cloud back office. Real-time reporting from any device, anywhere.</p>
+          <span class="sol-card-link">Learn more →</span>
+        </div>
+      </a>
+      <a href="solutions/pockettouch.html" class="sol-card">
+        <img class="sol-card-img" src="assets/images/solutions/media/pockettouch/hero.png" alt="PocketTouch">
+        <div class="sol-card-body">
+          <div class="sol-card-name">PocketTouch</div>
+          <p class="sol-card-desc">Handheld at-table ordering. Orders fire straight to the kitchen.</p>
+          <span class="sol-card-link">Learn more →</span>
+        </div>
+      </a>
+      <a href="solutions/touchkitchen.html" class="sol-card">
+        <img class="sol-card-img" src="assets/images/solutions/media/touchkitchen/hero.png" alt="TouchKitchen">
+        <div class="sol-card-body">
+          <div class="sol-card-name">TouchKitchen</div>
+          <p class="sol-card-desc">Kitchen display system. No lost tickets, no missed orders.</p>
+          <span class="sol-card-link">Learn more →</span>
+        </div>
+      </a>
+      <a href="solutions/selfservice.html" class="sol-card">
+        <img class="sol-card-img" src="assets/images/solutions/media/selfservice/hero.png" alt="SelfService">
+        <div class="sol-card-body">
+          <div class="sol-card-name">SelfService Kiosks</div>
+          <p class="sol-card-desc">Self-order kiosks that reduce queues and increase average spend.</p>
+          <span class="sol-card-link">Learn more →</span>
+        </div>
+      </a>
+      <a href="solutions/bytable.html" class="sol-card">
+        <img class="sol-card-img" src="assets/images/solutions/media/bytable/hero.png" alt="ByTable">
+        <div class="sol-card-body">
+          <div class="sol-card-name">ByTable</div>
+          <p class="sol-card-desc">Customer order-to-table from their phone. Zero commission.</p>
+          <span class="sol-card-link">Learn more →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT CTA -->
+<div class="split-cta reveal">
+  <img class="split-cta-img"
+    src="https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?w=700&q=80&fit=crop"
+    alt="EPoS installation">
+  <div class="split-cta-text">
+    <p class="section-label" style="color:#f97316">Ready when you are</p>
+    <h2>Ready to see what <em>proper EPoS</em> looks like?</h2>
+    <p>Tell us about your business and we'll put together a tailored quote — usually within one working day. No hard sell, no jargon.</p>
+    <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+      <a href="contact.html" class="btn-primary">Get a free quote →</a>
+      <a href="pricing.html" class="btn-ghost">View pricing</a>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-header reveal">
+    <div>
+      <p class="section-label">Customer reviews</p>
+      <h2 class="section-heading">Trusted across the UK.</h2>
+    </div>
+  </div>
+  <div class="testimonial-grid reveal" style="transition-delay:0.1s">
+    <div class="testimonial-card">
+      <div class="testimonial-stars"><span></span><span></span><span></span><span></span><span></span></div>
+      <p class="testimonial-quote">"Switched from a well-known provider and the difference is night and day. The hardware is solid, the software is fast, and when we need help someone actually answers."</p>
+      <div class="testimonial-author">James T.</div>
+      <div class="testimonial-biz">The Crown &amp; Anchor, Sheffield</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars"><span></span><span></span><span></span><span></span><span></span></div>
+      <p class="testimonial-quote">"We needed a system that could handle school canteen volumes without failing. Prime-EPOS delivered exactly that — reliable, quick, and the support team is brilliant."</p>
+      <div class="testimonial-author">Sarah M.</div>
+      <div class="testimonial-biz">Catering Manager, North Yorkshire Academy</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars"><span></span><span></span><span></span><span></span><span></span></div>
+      <p class="testimonial-quote">"Three sites, all linked through TouchOffice Web. I can see everything from my phone. Setup was seamless and the ongoing support has been faultless."</p>
+      <div class="testimonial-author">Priya K.</div>
+      <div class="testimonial-biz">Director, Spice Garden Group</div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></div>
+      <p class="footer-tagline">Professional EPoS solutions for UK businesses. Hardware that lasts. Software that works. Support that's actually here.</p>
+      <div class="footer-contact">
+        <div>Phone: <a href="tel:07947246247">07947 246247</a></div>
+        <div>Email: <a href="mailto:info@prime-epos.co.uk">info@prime-epos.co.uk</a></div>
+        <div>Support: 24/7 support available</div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Industries</div>
+      <ul class="footer-links">
+        <li><a href="industries/hospitality.html">Hospitality</a></li>
+        <li><a href="industries/retail.html">Retail</a></li>
+        <li><a href="industries/venues.html">Venues &amp; Events</a></li>
+        <li><a href="industries/services.html">Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Solutions</div>
+      <ul class="footer-links">
+        <li><a href="solutions/touchpoint.html">TouchPoint</a></li>
+        <li><a href="solutions/touchoffice.html">TouchOffice Web</a></li>
+        <li><a href="solutions/pockettouch.html">PocketTouch</a></li>
+        <li><a href="solutions.html">View all</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="products.html">Hardware</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="status.html">System Status</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">&copy; 2026 Prime-EPOS. All rights reserved. Registered in England &amp; Wales.</p>
+    <div class="footer-legal">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+  // Word cycling
+  const words = ['Hospitality.', 'Retail.', 'Venues.', 'Services.', 'Business.'];
+  let idx = 0;
+  const wordEl = document.getElementById('heroWord');
+  if (wordEl) {
+    setInterval(() => {
+      // Slide up out
+      wordEl.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.4s';
+      wordEl.style.transform = 'translateY(-110%)';
+      wordEl.style.opacity = '0';
+      setTimeout(() => {
+        idx = (idx + 1) % words.length;
+        wordEl.textContent = words[idx];
+        wordEl.style.transition = 'none';
+        wordEl.style.transform = 'translateY(110%)';
+        wordEl.style.opacity = '0';
+        setTimeout(() => {
+          wordEl.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.4s';
+          wordEl.style.transform = 'translateY(0)';
+          wordEl.style.opacity = '1';
+        }, 30);
+      }, 420);
+    }, 2200);
+  }
+</script>
+</body>
+</html>

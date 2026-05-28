@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Status — Prime-EPOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--off-white); color: var(--black); overflow-x: hidden; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+
+  /* ── NAV ── */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 5vw; height: 72px; display: flex; align-items: center; justify-content: space-between; background: rgba(14,14,14,0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; color: var(--white); text-decoration: none; letter-spacing: -0.01em; }
+  .nav-logo span { color: var(--accent-light); }
+  .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.875rem; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--white); }
+  .nav-cta { background: var(--accent) !important; color: var(--white) !important; padding: 0.5rem 1.25rem; border-radius: 6px; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--accent-light) !important; }
+  .nav-mobile-toggle { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+  .nav-mobile-toggle span { width: 22px; height: 2px; background: rgba(255,255,255,0.8); border-radius: 2px; display: block; }
+
+  /* ── MAIN LAYOUT ── */
+  .status-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 110px 5vw 80px;
+  }
+
+  /* ── HEADER ── */
+  .status-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.1s forwards;
+  }
+
+  .status-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+  }
+
+  .status-header p {
+    font-size: 0.9rem;
+    color: var(--mid);
+  }
+
+  /* ── OVERALL STATUS BANNER ── */
+  .overall-banner {
+    border-radius: 14px;
+    padding: 1.75rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+
+  .overall-banner.operational {
+    background: var(--green-dim);
+    border: 1px solid var(--green-border);
+  }
+
+  .overall-banner.degraded {
+    background: var(--amber-dim);
+    border: 1px solid rgba(217,119,6,0.25);
+  }
+
+  .overall-banner.outage {
+    background: var(--red-dim);
+    border: 1px solid rgba(220,38,38,0.25);
+  }
+
+  .overall-icon {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .operational .overall-icon { background: var(--green-dim); }
+  .degraded .overall-icon { background: var(--amber-dim); }
+  .outage .overall-icon { background: var(--red-dim); }
+
+  .overall-text h2 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .operational .overall-text h2 { color: var(--green); }
+  .degraded .overall-text h2 { color: var(--amber); }
+  .outage .overall-text h2 { color: var(--red); }
+
+  .overall-text p { font-size: 0.875rem; color: var(--mid); }
+
+  .overall-time {
+    margin-left: auto;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .overall-time .time-val {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    color: var(--mid);
+  }
+
+  .refresh-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-display);
+    padding: 0;
+    transition: color 0.2s;
+  }
+  .refresh-btn:hover { color: var(--accent-light); }
+  .refresh-btn.spinning { animation: spin 1s linear infinite; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── METRICS ── */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.3s forwards;
+  }
+
+  .metric-card {
+    background: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+  }
+
+  .metric-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-val {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--black);
+  }
+
+  .metric-val.green { color: var(--green); }
+  .metric-val.amber { color: var(--amber); }
+
+  .metric-sub {
+    font-size: 0.72rem;
+    color: var(--mid);
+    margin-top: 0.2rem;
+  }
+
+  /* ── SERVICES ── */
+  .services-card {
+    background: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.4s forwards;
+  }
+
+  .services-card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .services-card-title {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  .legend {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--mid);
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-dot.green { background: var(--green); }
+  .legend-dot.amber { background: var(--amber); }
+  .legend-dot.red   { background: var(--red); }
+  .legend-dot.grey  { background: #d1d5db; }
+
+  /* Service row */
+  .service-row {
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    border-bottom: 1px solid var(--border-light);
+    transition: background 0.15s;
+  }
+  .service-row:last-child { border-bottom: none; }
+  .service-row:hover { background: var(--off-white); }
+
+  .service-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    min-width: 180px;
+    flex-shrink: 0;
+  }
+
+  /* Uptime bars — 90 days */
+  .uptime-bars {
+    display: flex;
+    gap: 2px;
+    flex: 1;
+  }
+
+  .uptime-bar {
+    flex: 1;
+    height: 28px;
+    border-radius: 3px;
+    background: var(--green);
+    opacity: 0.8;
+    transition: opacity 0.15s;
+    cursor: default;
+    position: relative;
+  }
+
+  .uptime-bar:hover { opacity: 1; }
+  .uptime-bar.incident { background: var(--amber); }
+  .uptime-bar.outage   { background: var(--red); }
+  .uptime-bar.no-data  { background: #e5e7eb; }
+
+  .service-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 130px;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
+  .status-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-dot.operational { background: var(--green); animation: pulse-green 2s infinite; }
+  .status-dot.degraded    { background: var(--amber); }
+  .status-dot.outage      { background: var(--red); animation: pulse-red 1.5s infinite; }
+
+  @keyframes pulse-green { 0%,100%{box-shadow:0 0 0 0 rgba(22,163,74,0.4)} 50%{box-shadow:0 0 0 4px rgba(22,163,74,0)} }
+  @keyframes pulse-red   { 0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0.4)} 50%{box-shadow:0 0 0 4px rgba(220,38,38,0)} }
+
+  .status-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: var(--font-display);
+  }
+
+  .status-label.operational { color: var(--green); }
+  .status-label.degraded    { color: var(--amber); }
+  .status-label.outage      { color: var(--red); }
+
+  /* ── INCIDENTS ── */
+  .incidents-card {
+    background: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.5s forwards;
+  }
+
+  .incidents-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .incidents-title {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  .incidents-empty {
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+
+  .incidents-empty-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .incidents-empty h4 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; }
+  .incidents-empty p { font-size: 0.85rem; color: var(--mid); }
+
+  .incident-item {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .incident-item:last-child { border-bottom: none; }
+
+  .incident-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .incident-title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .incident-date {
+    font-size: 0.775rem;
+    color: var(--mid);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .incident-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    margin-bottom: 0.6rem;
+    font-family: var(--font-display);
+  }
+
+  .incident-badge.resolved { background: var(--green-dim); color: var(--green); }
+  .incident-badge.ongoing  { background: var(--amber-dim); color: var(--amber); }
+
+  .incident-update {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--mid);
+    border-left: 3px solid var(--border-light);
+    padding-left: 0.85rem;
+    margin-top: 0.5rem;
+  }
+
+  /* ── SUPPORT CTA ── */
+  .support-card {
+    background: var(--dark);
+    border-radius: 14px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.6s forwards;
+  }
+
+  .support-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.35rem;
+  }
+
+  .support-card p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+  }
+
+  .support-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; flex-shrink: 0; }
+
+  .btn-call {
+    background: var(--accent);
+    color: var(--white);
+    padding: 0.7rem 1.4rem;
+    border-radius: 8px;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .btn-call:hover { background: var(--accent-light); }
+
+  .btn-email {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.8);
+    padding: 0.7rem 1.4rem;
+    border-radius: 8px;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .btn-email:hover { background: rgba(255,255,255,0.14); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--black); padding: 70px 5vw 40px; border-top: 1px solid var(--border); margin-top: 60px; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border); }
+  .footer-brand { font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--white); margin-bottom: 0.75rem; }
+  .footer-brand span { color: var(--accent-light); }
+  .footer-tagline { font-size: 0.875rem; color: rgba(255,255,255,0.35); line-height: 1.6; max-width: 280px; }
+  .footer-contact { margin-top: 1.5rem; font-size: 0.875rem; color: rgba(255,255,255,0.5); line-height: 1.8; }
+  .footer-contact a { color: var(--accent-light); text-decoration: none; }
+  .footer-col-title { font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 1rem; }
+  .footer-links { list-style: none; }
+  .footer-links li + li { margin-top: 0.5rem; }
+  .footer-links a { font-size: 0.875rem; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; flex-wrap: wrap; gap: 1rem; }
+  .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.25); }
+  .footer-legal { display: flex; gap: 1.5rem; }
+  .footer-legal a { font-size: 0.8rem; color: rgba(255,255,255,0.25); text-decoration: none; transition: color 0.2s; }
+  .footer-legal a:hover { color: rgba(255,255,255,0.6); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-mobile-toggle { display: flex; }
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .service-name { min-width: 130px; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .legend { display: none; }
+  }
+  @media (max-width: 560px) {
+    .uptime-bars { display: none; }
+    .service-status { margin-left: auto; }
+    .footer-top { grid-template-columns: 1fr; }
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+<link rel="stylesheet" href="assets/css/style.css">
+
+<link rel="stylesheet" href="assets/css/site-shell-v2.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></a>
+  <ul class="nav-links">
+    <li class="has-dropdown">
+      <a href="industries.html">Industries</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="industries/hospitality.html">Hospitality</a>
+          <a href="industries/retail.html">Retail</a>
+          <a href="industries/venues.html">Venues &amp; Events</a>
+          <a href="industries/services.html">Services</a>
+        </div>
+      </div>
+    </li>
+    <li class="has-dropdown">
+      <a href="solutions.html">Solutions</a>
+      <div class="nav-dropdown wide">
+        <div class="nav-dropdown-inner">
+          <a href="solutions/touchpoint.html">TouchPoint</a>
+          <a href="solutions/touchpoint-lite.html">TouchPoint Lite</a>
+          <a href="solutions/touchoffice.html">TouchOffice Web</a>
+          <a href="solutions/pockettouch.html">PocketTouch</a>
+          <a href="solutions/bytable.html">ByTable</a>
+          <a href="solutions/touchkitchen.html">TouchKitchen</a>
+          <a href="solutions/selfservice.html">SelfService</a>
+          <a href="solutions/touchstock.html">TouchStock</a>
+          <a href="solutions/touchreservation.html">TouchReservation</a>
+          <a href="solutions/collectionpoint.html">CollectionPoint</a>
+          <div class="dd-divider"></div>
+          <div class="dd-view-all"><a href="solutions.html">View all solutions &rarr;</a></div>
+        </div>
+      </div>
+    </li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="status-wrap">
+
+  <!-- HEADER -->
+  <div class="status-header">
+    <h1>System Status</h1>
+    <p>Live status for all Prime-EPOS services and infrastructure</p>
+  </div>
+
+  <!-- OVERALL BANNER -->
+  <div class="overall-banner operational" id="overall-banner">
+    <div class="overall-icon">✅</div>
+    <div class="overall-text">
+      <h2 id="overall-title">All Systems Operational</h2>
+      <p id="overall-sub">All services are running normally. No incidents reported.</p>
+    </div>
+    <div class="overall-time">
+      <div class="time-val" id="last-updated">Last updated: —</div>
+      <button class="refresh-btn" onclick="refreshStatus()" id="refresh-btn">↻ Refresh</button>
+    </div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="metric-label">Overall Uptime</div>
+      <div class="metric-val green" id="metric-uptime">99.9%</div>
+      <div class="metric-sub">Last 90 days</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Incidents</div>
+      <div class="metric-val" id="metric-incidents">0</div>
+      <div class="metric-sub">Last 30 days</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Avg Response</div>
+      <div class="metric-val" id="metric-response">&lt;2 hrs</div>
+      <div class="metric-sub">Support tickets</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Support</div>
+      <div class="metric-val green" style="font-size:1.1rem; padding-top:0.3rem;">24 / 7</div>
+      <div class="metric-sub">Always available</div>
+    </div>
+  </div>
+
+  <!-- SERVICES TABLE -->
+  <div class="services-card">
+    <div class="services-card-header">
+      <span class="services-card-title">Service Status — 90 Day History</span>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot green"></div>Operational</div>
+        <div class="legend-item"><div class="legend-dot amber"></div>Degraded</div>
+        <div class="legend-item"><div class="legend-dot red"></div>Outage</div>
+        <div class="legend-item"><div class="legend-dot grey"></div>No data</div>
+      </div>
+    </div>
+
+    <!-- Services are rendered by JS below -->
+    <div id="services-list"></div>
+  </div>
+
+  <!-- INCIDENTS -->
+  <div class="incidents-card">
+    <div class="incidents-header">
+      <span class="incidents-title">Recent Incidents</span>
+    </div>
+    <div id="incidents-list">
+      <div class="incidents-empty">
+        <div class="incidents-empty-icon">🎉</div>
+        <h4>No recent incidents</h4>
+        <p>No incidents have been reported in the past 30 days.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUPPORT CTA -->
+  <div class="support-card">
+    <div>
+      <h3>Experiencing an issue?</h3>
+      <p>Our UK support team is available 24/7. Call us directly for urgent issues — we pick up.</p>
+    </div>
+    <div class="support-actions">
+      <a href="tel:07947246247" class="btn-call">📞 07947 246247</a>
+      <a href="mailto:info@prime-epos.co.uk" class="btn-email">✉️ Email support</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></div>
+      <p class="footer-tagline">Professional EPoS solutions for UK businesses. Hardware that lasts. Software that works. Support that's actually here.</p>
+      <div class="footer-contact">
+        <div>Phone: <a href="tel:07947246247">07947 246247</a></div>
+        <div>Email: <a href="mailto:info@prime-epos.co.uk">info@prime-epos.co.uk</a></div>
+        <div>Support: 24/7 support available</div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Industries</div>
+      <ul class="footer-links">
+        <li><a href="industries/hospitality.html">Hospitality</a></li>
+        <li><a href="industries/retail.html">Retail</a></li>
+        <li><a href="industries/venues.html">Venues &amp; Events</a></li>
+        <li><a href="industries/services.html">Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Solutions</div>
+      <ul class="footer-links">
+        <li><a href="solutions/touchpoint.html">TouchPoint</a></li>
+        <li><a href="solutions/touchoffice.html">TouchOffice Web</a></li>
+        <li><a href="solutions/pockettouch.html">PocketTouch</a></li>
+        <li><a href="solutions.html">View all</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="products.html">Hardware</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="status.html">System Status</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">&copy; 2026 Prime-EPOS. All rights reserved. Registered in England &amp; Wales.</p>
+    <div class="footer-legal">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── SERVICE DEFINITIONS ────────────────────────────────────────
+  // Edit this array to add/remove/update services.
+  // status: 'operational' | 'degraded' | 'outage'
+  // uptime: number 0–100
+  // To simulate incidents in the 90-day bars, add indices to 'incidents' array (0 = today, 89 = 90 days ago)
+  const SERVICES = [
+    {
+      name: 'TouchPoint EPoS',
+      status: 'operational',
+      uptime: 99.9,
+      incidents: []
+    },
+    {
+      name: 'TouchOffice Web',
+      status: 'operational',
+      uptime: 99.8,
+      incidents: []
+    },
+    {
+      name: 'PocketTouch',
+      status: 'operational',
+      uptime: 100,
+      incidents: []
+    },
+    {
+      name: 'ByTable',
+      status: 'operational',
+      uptime: 99.9,
+      incidents: []
+    },
+    {
+      name: 'TouchTakeaway',
+      status: 'operational',
+      uptime: 99.7,
+      incidents: []
+    },
+    {
+      name: 'TouchKitchen',
+      status: 'operational',
+      uptime: 100,
+      incidents: []
+    },
+    {
+      name: 'SelfService Kiosks',
+      status: 'operational',
+      uptime: 99.9,
+      incidents: []
+    },
+    {
+      name: 'TouchReservation',
+      status: 'operational',
+      uptime: 99.8,
+      incidents: []
+    },
+    {
+      name: 'Cloud Infrastructure',
+      status: 'operational',
+      uptime: 99.99,
+      incidents: []
+    },
+    {
+      name: 'Support Portal',
+      status: 'operational',
+      uptime: 100,
+      incidents: []
+    },
+  ];
+
+  // ── RENDER SERVICES ────────────────────────────────────────────
+  function renderServices() {
+    const container = document.getElementById('services-list');
+    container.innerHTML = '';
+
+    SERVICES.forEach(service => {
+      const row = document.createElement('div');
+      row.className = 'service-row';
+
+      // Name
+      const name = document.createElement('div');
+      name.className = 'service-name';
+      name.textContent = service.name;
+      row.appendChild(name);
+
+      // 90-day bars
+      const bars = document.createElement('div');
+      bars.className = 'uptime-bars';
+      for (let i = 89; i >= 0; i--) {
+        const bar = document.createElement('div');
+        bar.className = 'uptime-bar';
+        if (service.incidents.includes(i)) {
+          bar.className += ' incident';
+          bar.title = `${i === 0 ? 'Today' : i + ' days ago'}: Incident`;
+        } else {
+          bar.title = `${i === 0 ? 'Today' : i + ' days ago'}: Operational`;
+        }
+        bars.appendChild(bar);
+      }
+      row.appendChild(bars);
+
+      // Status badge
+      const statusWrap = document.createElement('div');
+      statusWrap.className = 'service-status';
+
+      const dot = document.createElement('div');
+      dot.className = `status-dot ${service.status}`;
+
+      const label = document.createElement('div');
+      label.className = `status-label ${service.status}`;
+      const labels = { operational: 'Operational', degraded: 'Degraded', outage: 'Outage' };
+      label.textContent = labels[service.status];
+
+      statusWrap.appendChild(dot);
+      statusWrap.appendChild(label);
+      row.appendChild(statusWrap);
+
+      container.appendChild(row);
+    });
+  }
+
+  // ── UPDATE OVERALL BANNER ──────────────────────────────────────
+  function updateOverall() {
+    const hasOutage   = SERVICES.some(s => s.status === 'outage');
+    const hasDegraded = SERVICES.some(s => s.status === 'degraded');
+    const banner = document.getElementById('overall-banner');
+    const title  = document.getElementById('overall-title');
+    const sub    = document.getElementById('overall-sub');
+
+    banner.className = 'overall-banner';
+    if (hasOutage) {
+      banner.classList.add('outage');
+      title.textContent = 'Service Disruption';
+      sub.textContent   = 'One or more services are experiencing an outage. Our team is working on a fix.';
+      document.querySelector('.overall-icon').textContent = '🔴';
+    } else if (hasDegraded) {
+      banner.classList.add('degraded');
+      title.textContent = 'Partial Service Degradation';
+      sub.textContent   = 'Some services are experiencing degraded performance. We are investigating.';
+      document.querySelector('.overall-icon').textContent = '🟡';
+    } else {
+      banner.classList.add('operational');
+      title.textContent = 'All Systems Operational';
+      sub.textContent   = 'All services are running normally. No incidents reported.';
+      document.querySelector('.overall-icon').textContent = '✅';
+    }
+  }
+
+  // ── REFRESH ────────────────────────────────────────────────────
+  function refreshStatus() {
+    const btn = document.getElementById('refresh-btn');
+    btn.textContent = '↻ Refreshing...';
+    btn.style.opacity = '0.6';
+
+    setTimeout(() => {
+      renderServices();
+      updateOverall();
+      document.getElementById('last-updated').textContent =
+        'Last updated: ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      btn.textContent = '↻ Refresh';
+      btn.style.opacity = '';
+    }, 800);
+  }
+
+  // ── INIT ───────────────────────────────────────────────────────
+  renderServices();
+  updateOverall();
+  document.getElementById('last-updated').textContent =
+    'Last updated: ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+  // Auto-refresh every 60 seconds
+  setInterval(refreshStatus, 60000);
+</script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
