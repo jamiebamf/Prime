@@ -5,6 +5,26 @@
 (function () {
   'use strict';
 
+  /* Local fallback for blocked or missing external images */
+  const fallbackImage = window.location.pathname.includes('/solutions/') || window.location.pathname.includes('/industries/')
+    ? '../assets/images/site/epos-hero.png'
+    : 'assets/images/site/epos-hero.png';
+
+  document.querySelectorAll('img').forEach((img) => {
+    img.addEventListener('error', () => {
+      if (img.dataset.fallbackApplied === 'true') return;
+      img.dataset.fallbackApplied = 'true';
+      img.src = fallbackImage;
+      img.classList.add('img-fallback');
+    });
+
+    if (img.complete && img.naturalWidth === 0) {
+      img.dataset.fallbackApplied = 'true';
+      img.src = fallbackImage;
+      img.classList.add('img-fallback');
+    }
+  });
+
   /* ── SCROLL REVEAL ── */
   const revealEls = document.querySelectorAll('.reveal');
   if (revealEls.length) {

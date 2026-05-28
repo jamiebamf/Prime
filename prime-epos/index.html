@@ -102,8 +102,6 @@
   display: block;
 }
 
-
-
 .hero-sub {
   font-size: 1rem;
   font-weight: 300;
@@ -492,12 +490,14 @@
   .why-grid { grid-template-columns: 1fr; }
 }
 </style>
+
+<link rel="stylesheet" href="assets/css/site-shell-v2.css">
 </head>
 <body>
 
 <!-- NAV (will be replaced by shared nav from assets) -->
 <nav class="site-nav">
-  <a href="index.html" class="nav-logo">Prime<span>-EPOS</span></a>
+  <a href="index.html" class="nav-logo pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></a>
   <ul class="nav-links">
     <li class="has-dropdown">
       <a href="industries.html">Industries</a>
@@ -525,11 +525,11 @@
           <a href="solutions/touchreservation.html">TouchReservation</a>
           <a href="solutions/collectionpoint.html">CollectionPoint</a>
           <div class="dd-divider"></div>
-          <div class="dd-view-all"><a href="solutions.html">View all solutions →</a></div>
+          <div class="dd-view-all"><a href="solutions.html">View all solutions &rarr;</a></div>
         </div>
       </div>
     </li>
-    <li><a href="shop.html">Shop</a></li>
+    <li><a href="products.html">Products</a></li>
     <li><a href="pricing.html">Pricing</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="contact.html" class="nav-cta">Get a Quote</a></li>
@@ -570,8 +570,8 @@
 
   <div class="hero-right">
     <img class="hero-img-main"
-      src="https://icrtouch.com/wp-content/uploads/ICRTouch-Product-Collage-1600x900.jpg"
-      alt="Prime-EPOS software ecosystem">
+      src="assets/images/site/icrtouch-products-2026.png"
+      alt="Prime-EPOS hardware and software setup">
   </div>
 </section>
 
@@ -669,7 +669,7 @@
   <div class="sol-scroll-wrap reveal" style="transition-delay:0.1s">
     <div class="sol-cards">
       <a href="solutions/touchpoint.html" class="sol-card">
-        <img class="sol-card-img" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&q=80&fit=crop" alt="TouchPoint">
+        <img class="sol-card-img" src="assets/images/solutions/media/touchpoint/hero.png" alt="TouchPoint">
         <div class="sol-card-body">
           <div class="sol-card-name">TouchPoint</div>
           <p class="sol-card-desc">Bespoke EPoS software built over 20+ years. Fast, flexible, offline-resilient.</p>
@@ -677,7 +677,7 @@
         </div>
       </a>
       <a href="solutions/touchoffice.html" class="sol-card">
-        <img class="sol-card-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80&fit=crop" alt="TouchOffice Web">
+        <img class="sol-card-img" src="assets/images/solutions/media/touchoffice/hero.png" alt="TouchOffice Web">
         <div class="sol-card-body">
           <div class="sol-card-name">TouchOffice Web</div>
           <p class="sol-card-desc">Cloud back office. Real-time reporting from any device, anywhere.</p>
@@ -685,7 +685,7 @@
         </div>
       </a>
       <a href="solutions/pockettouch.html" class="sol-card">
-        <img class="sol-card-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&fit=crop" alt="PocketTouch">
+        <img class="sol-card-img" src="assets/images/solutions/media/pockettouch/hero.png" alt="PocketTouch">
         <div class="sol-card-body">
           <div class="sol-card-name">PocketTouch</div>
           <p class="sol-card-desc">Handheld at-table ordering. Orders fire straight to the kitchen.</p>
@@ -693,7 +693,7 @@
         </div>
       </a>
       <a href="solutions/touchkitchen.html" class="sol-card">
-        <img class="sol-card-img" src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=400&q=80&fit=crop" alt="TouchKitchen">
+        <img class="sol-card-img" src="assets/images/solutions/media/touchkitchen/hero.png" alt="TouchKitchen">
         <div class="sol-card-body">
           <div class="sol-card-name">TouchKitchen</div>
           <p class="sol-card-desc">Kitchen display system. No lost tickets, no missed orders.</p>
@@ -701,7 +701,7 @@
         </div>
       </a>
       <a href="solutions/selfservice.html" class="sol-card">
-        <img class="sol-card-img" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&q=80&fit=crop" alt="SelfService">
+        <img class="sol-card-img" src="assets/images/solutions/media/selfservice/hero.png" alt="SelfService">
         <div class="sol-card-body">
           <div class="sol-card-name">SelfService Kiosks</div>
           <p class="sol-card-desc">Self-order kiosks that reduce queues and increase average spend.</p>
@@ -709,7 +709,7 @@
         </div>
       </a>
       <a href="solutions/bytable.html" class="sol-card">
-        <img class="sol-card-img" src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&q=80&fit=crop" alt="ByTable">
+        <img class="sol-card-img" src="assets/images/solutions/media/bytable/hero.png" alt="ByTable">
         <div class="sol-card-body">
           <div class="sol-card-name">ByTable</div>
           <p class="sol-card-desc">Customer order-to-table from their phone. Zero commission.</p>
@@ -769,12 +769,12 @@
 <footer class="site-footer">
   <div class="footer-top">
     <div>
-      <div class="footer-brand">Prime<span>-EPOS</span></div>
-      <p class="footer-tagline">Professional EPoS for UK businesses. Hardware that lasts. Software that works. Support that's actually here.</p>
+      <div class="footer-brand pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></div>
+      <p class="footer-tagline">Professional EPoS solutions for UK businesses. Hardware that lasts. Software that works. Support that's actually here.</p>
       <div class="footer-contact">
-        <div>📞 <a href="tel:07947246247">07947 246247</a></div>
-        <div>✉️ <a href="mailto:info@prime-epos.co.uk">info@prime-epos.co.uk</a></div>
-        <div>24/7 UK Support</div>
+        <div>Phone: <a href="tel:07947246247">07947 246247</a></div>
+        <div>Email: <a href="mailto:info@prime-epos.co.uk">info@prime-epos.co.uk</a></div>
+        <div>Support: 24/7 support available</div>
       </div>
     </div>
     <div>
@@ -792,7 +792,7 @@
         <li><a href="solutions/touchpoint.html">TouchPoint</a></li>
         <li><a href="solutions/touchoffice.html">TouchOffice Web</a></li>
         <li><a href="solutions/pockettouch.html">PocketTouch</a></li>
-        <li><a href="solutions.html">View all →</a></li>
+        <li><a href="solutions.html">View all</a></li>
       </ul>
     </div>
     <div>
@@ -800,14 +800,14 @@
       <ul class="footer-links">
         <li><a href="about.html">About Us</a></li>
         <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="shop.html">Shop</a></li>
+        <li><a href="products.html">Hardware</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="status.html">System Status</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2025 Prime-EPOS. All rights reserved. Registered in England &amp; Wales.</p>
+    <p class="footer-copy">&copy; 2026 Prime-EPOS. All rights reserved. Registered in England &amp; Wales.</p>
     <div class="footer-legal">
       <a href="privacy.html">Privacy Policy</a>
       <a href="cookies.html">Cookies</a>

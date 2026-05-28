@@ -9,6 +9,35 @@ body { font-family: var(--font-body); background: var(--white); color: var(--bla
 img { display: block; max-width: 100%; }
 a { color: inherit; }
 
+.solution-media-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(180px, 0.8fr);
+  gap: 1rem;
+  align-items: stretch;
+  margin-top: 2rem;
+}
+.solution-media-grid img {
+  width: 100%;
+  height: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  background: #f7f7f7;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+.solution-media-stack {
+  display: grid;
+  gap: 1rem;
+}
+.solution-media-stack img { max-height: 172px; }
+
+@media (max-width: 800px) {
+  .solution-media-grid { grid-template-columns: 1fr; }
+  .solution-media-grid img,
+  .solution-media-stack img { max-height: 260px; }
+}
+
 :root {
   --black:        #0e0e0e;
   --dark:         #141414;
@@ -61,6 +90,73 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); letter-spacing: -0.02em; l
   flex-shrink: 0;
 }
 .nav-logo span { color: var(--accent-light); }
+
+.pe-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.68rem;
+  line-height: 1;
+}
+
+.pe-logo-icon {
+  position: relative;
+  width: 44px;
+  height: 38px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  background: linear-gradient(160deg, #151515, #242424);
+  border: 1px solid rgba(255, 106, 0, 0.54);
+  border-radius: 9px 9px 6px 6px;
+  box-shadow:
+    inset 0 0 0 4px rgba(255, 106, 0, 0.09),
+    0 10px 24px rgba(255, 106, 0, 0.16);
+}
+
+.pe-logo-icon::before {
+  content: "PE";
+  margin-left: -0.08rem;
+  color: var(--accent-light);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: -0.14em;
+  transform: skew(-8deg);
+}
+
+.pe-logo-icon::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -6px;
+  height: 6px;
+  border-radius: 0 0 5px 5px;
+  background: var(--accent-light);
+  box-shadow: 0 6px 0 -2px rgba(15, 15, 15, 0.58);
+}
+
+.pe-logo-word {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.04rem;
+  font-family: var(--font-display);
+  font-size: 1.24rem;
+  font-weight: 850;
+  letter-spacing: -0.025em;
+}
+
+.nav-logo .pe-logo-prime,
+.footer-brand .pe-logo-prime,
+.nav-logo .pe-logo-dash,
+.footer-brand .pe-logo-dash {
+  color: var(--white);
+}
+
+.nav-logo .pe-logo-epos,
+.footer-brand .pe-logo-epos {
+  color: var(--accent-light);
+}
 
 .nav-links {
   display: flex;
@@ -287,6 +383,9 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); letter-spacing: -0.02em; l
 .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border); }
 .footer-brand { font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--white); margin-bottom: 0.75rem; }
 .footer-brand span { color: var(--accent-light); }
+.footer-brand.pe-logo {
+  margin-bottom: 0.95rem;
+}
 .footer-tagline { font-size: 0.875rem; color: rgba(255,255,255,0.35); line-height: 1.6; max-width: 280px; }
 .footer-contact { margin-top: 1.5rem; font-size: 0.875rem; color: rgba(255,255,255,0.5); line-height: 1.8; }
 .footer-contact a { color: var(--accent-light); text-decoration: none; }

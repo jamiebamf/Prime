@@ -178,10 +178,10 @@
   /* Featured product — full width */
   .product-featured {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.85fr 1.15fr;
     gap: 0;
     border: 1px solid var(--border-light);
-    border-radius: 16px;
+    border-radius: 10px;
     overflow: hidden;
     margin-bottom: 1.5rem;
     text-decoration: none;
@@ -193,13 +193,16 @@
   .product-featured-img {
     width: 100%;
     height: 100%;
-    min-height: 320px;
-    object-fit: cover;
+    min-height: 230px;
+    max-height: 300px;
+    object-fit: contain;
     display: block;
+    background: #f7f7f7;
+    padding: 0.75rem;
   }
 
   .product-featured-body {
-    padding: 3rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -256,13 +259,13 @@
   /* Standard product grid */
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.25rem;
   }
 
   .product-card {
     border: 1px solid var(--border-light);
-    border-radius: 14px;
+    border-radius: 10px;
     overflow: hidden;
     text-decoration: none;
     color: inherit;
@@ -277,14 +280,15 @@
 
   .product-card-img {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    height: 150px;
+    object-fit: contain;
     display: block;
-    background: var(--off-white);
+    background: #f7f7f7;
+    padding: 0.5rem;
   }
 
   .product-card-body {
-    padding: 1.5rem;
+    padding: 1.15rem;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -334,7 +338,7 @@
 
   .addons-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem;
     margin-top: 3.5rem;
   }
@@ -342,7 +346,7 @@
   .addon-card {
     background: var(--dark2);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
     text-decoration: none;
     color: inherit;
@@ -357,10 +361,12 @@
 
   .addon-card-img {
     width: 100%;
-    height: 160px;
-    object-fit: cover;
+    height: 130px;
+    object-fit: contain;
     display: block;
-    opacity: 0.85;
+    opacity: 1;
+    background: #101010;
+    padding: 0.5rem;
   }
 
   .addon-card-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
@@ -372,8 +378,7 @@
     object-position: left;
     display: block;
     margin-bottom: 0.65rem;
-    filter: brightness(0) invert(1);
-    opacity: 0.8;
+    opacity: 1;
   }
 
   .addon-card-name {
@@ -535,14 +540,260 @@
     .footer-top { grid-template-columns: 1fr; }
     .ecosystem-grid { grid-template-columns: repeat(2, 1fr); }
   }
+
+  .solutions-intro {
+    background:
+      radial-gradient(circle at 78% 16%, rgba(255, 106, 0, 0.42), transparent 28%),
+      radial-gradient(circle at 58% 84%, rgba(255, 106, 0, 0.2), transparent 34%),
+      linear-gradient(120deg, #080808 0%, #101010 45%, #231105 100%);
+    padding: 102px 5vw 26px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .solutions-intro::after {
+    display: none;
+  }
+  .solutions-intro-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.72fr) minmax(360px, 1.28fr);
+    gap: 3rem;
+    align-items: center;
+    max-width: 1360px;
+    margin: 0 auto;
+  }
+  .solutions-intro h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.35vw, 4.15rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.02;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .solutions-intro h1 em {
+    color: var(--accent-light);
+    font-style: normal;
+  }
+  .solutions-intro p {
+    color: rgba(255,255,255,0.58);
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 580px;
+  }
+  .solutions-hero-media {
+    min-height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .solutions-hero-media img {
+    width: 100%;
+    height: auto !important;
+    max-height: 360px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 24px 44px rgba(0,0,0,0.36));
+  }
+
+  .solution-catalog {
+    padding: 42px 5vw 82px;
+    background: #efefed;
+  }
+  .solution-catalog-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .solution-catalog-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 1.75rem;
+  }
+  .solution-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.45rem;
+  }
+  .solution-tile {
+    min-height: 0;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .solution-tile-inner {
+    position: relative;
+    height: 100%;
+    min-height: 0;
+    border: 1px solid rgba(15, 15, 15, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fbfaf7;
+    box-shadow:
+      0 1px 0 rgba(15, 15, 15, 0.04),
+      0 12px 28px rgba(15, 15, 15, 0.05);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  }
+  .solution-tile:hover .solution-tile-inner,
+  .solution-tile:focus-visible .solution-tile-inner {
+    transform: translateY(-3px);
+    border-color: rgba(255, 106, 0, 0.58);
+    box-shadow:
+      0 18px 42px rgba(15, 15, 15, 0.1),
+      0 0 0 1px rgba(255, 106, 0, 0.16),
+      0 0 28px rgba(255, 106, 0, 0.22);
+  }
+  .solution-tile-media {
+    aspect-ratio: 16 / 8.6;
+    height: auto;
+    background: #f2f1ee;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(15, 15, 15, 0.08);
+    margin-bottom: 0;
+  }
+  .solution-tile-media img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .solution-tile-body {
+    min-height: 0;
+    padding: 1.1rem 1.1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .solution-tile-name {
+    display: none;
+  }
+  .solution-tile-logo {
+    display: block;
+    max-width: 250px;
+    width: 100%;
+    height: 36px;
+    object-fit: contain;
+    object-position: left;
+    margin-bottom: 0.75rem;
+  }
+  .solution-tile-logo[src*="touchkitchen-cropped"] {
+    max-width: 205px;
+    height: 31px;
+  }
+  .solution-tile-tag {
+    color: var(--accent);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    line-height: 1.35;
+    text-transform: uppercase;
+    margin-bottom: 0.55rem;
+  }
+  .solution-tile-desc {
+    color: var(--mid);
+    font-size: 0.96rem;
+    line-height: 1.58;
+    flex: 1;
+  }
+  .solution-tile-link {
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-top: 1rem;
+  }
+  .solution-tile-detail {
+    display: none;
+  }
+  .solution-tile:hover .solution-tile-detail,
+  .solution-tile:focus-visible .solution-tile-detail {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .solution-tile-detail h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.55rem;
+  }
+  .solution-tile-detail p {
+    color: rgba(255,255,255,0.72);
+    font-size: 0.9rem;
+    line-height: 1.58;
+    margin-bottom: 1rem;
+  }
+  .solution-tile-detail span {
+    color: var(--accent-light);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.88rem;
+  }
+  .ecosystem-clean {
+    padding: 72px 5vw;
+    background: var(--white);
+  }
+
+  @media (max-width: 980px) {
+    .solutions-intro-inner {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .solutions-hero-media {
+      min-height: 0;
+    }
+    .solutions-hero-media img {
+      max-height: 300px;
+    }
+    .solution-catalog-header {
+      display: block;
+    }
+    .solution-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 620px) {
+    .solutions-intro {
+      padding: 96px 5vw 26px;
+    }
+    .solutions-hero-media {
+      display: none;
+    }
+    .solution-grid {
+      grid-template-columns: 1fr;
+    }
+    .solution-tile,
+    .solution-tile-inner {
+      min-height: 0;
+    }
+    .solution-tile-detail {
+      position: static;
+      opacity: 1;
+      transform: none;
+      background: var(--dark);
+      padding: 1rem;
+    }
+    .solution-tile-body {
+      min-height: 0;
+    }
+  }
 </style>
 <link rel="stylesheet" href="assets/css/style.css">
+
+<link rel="stylesheet" href="assets/css/site-shell-v2.css">
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="site-nav">
-  <a href="index.html" class="nav-logo">Prime<span>-EPOS</span></a>
+  <a href="index.html" class="nav-logo pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></a>
   <ul class="nav-links">
     <li class="has-dropdown">
       <a href="industries.html">Industries</a>
@@ -570,7 +821,7 @@
           <a href="solutions/touchreservation.html">TouchReservation</a>
           <a href="solutions/collectionpoint.html">CollectionPoint</a>
           <div class="dd-divider"></div>
-          <div class="dd-view-all"><a href="solutions.html">View all solutions →</a></div>
+          <div class="dd-view-all"><a href="solutions.html">View all solutions &rarr;</a></div>
         </div>
       </div>
     </li>
@@ -582,269 +833,180 @@
   <button class="nav-mobile-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- PAGE HERO -->
-<section class="page-hero">
-  <p class="hero-eyebrow">Software solutions</p>
-  <h1>One ecosystem.<br><em>Everything</em> connected.</h1>
-  <p>From the till to the back office, from the kitchen screen to the customer's phone — our suite of EPoS software works together to run every part of your business.</p>
-</section>
-
-<!-- CORE PRODUCTS -->
-<section class="core-products">
-  <div class="products-header reveal">
-    <div>
-      <p class="section-label">Core solutions</p>
-      <h2 class="section-heading">The software your<br>business runs on.</h2>
+<!-- INTRO -->
+<section class="solutions-intro">
+  <div class="solutions-intro-inner">
+    <div class="reveal">
+      <p class="hero-eyebrow">Software solutions</p>
+      <h1>All the tools.<br><em>Easy to compare.</em></h1>
+      <p>Explore the full Prime-EPOS software range in one place. Every card links to a dedicated page, so you can quickly see what each solution does and how it fits into the wider ecosystem.</p>
     </div>
-    <p class="section-sub" style="max-width:340px">Start with the essentials. Every solution below works as a standalone system or as part of a fully connected ecosystem.</p>
-  </div>
-
-  <!-- TouchPoint — Featured -->
-  <a href="solutions/touchpoint.html" class="product-featured reveal">
-    <img class="product-featured-img" src="https://icrtouch.com/wp-content/uploads/TouchPoint-800x400px.jpg" alt="TouchPoint EPoS">
-    <div class="product-featured-body">
-      <img class="product-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-TouchPoint.png" alt="TouchPoint logo">
-      <p class="product-tag">Bespoke EPoS</p>
-      <h3 class="product-name">TouchPoint</h3>
-      <p class="product-desc">The heart of your EPoS setup. Developed over 20+ years, TouchPoint is fast, flexible, and built to handle the demands of any business — from a single till to a multi-site estate. Intuitive enough that staff pick it up in minutes, powerful enough to never hold you back.</p>
-      <span class="product-link">Explore TouchPoint →</span>
+    <div class="solutions-hero-media reveal" style="transition-delay:0.1s">
+      <img src="assets/images/site/solutions-ecosystem.png" alt="Connected EPoS software ecosystem across till, menu, kitchen, collection, stock, handheld and kiosk screens">
     </div>
-  </a>
-
-  <!-- Standard grid -->
-  <div class="products-grid reveal" style="transition-delay:0.1s">
-
-    <a href="solutions/touchpoint-lite.html" class="product-card">
-      <img class="product-card-img" src="https://icrtouch.com/wp-content/uploads/TouchPoint_lite_Product_800x400px.jpg" alt="TouchPoint Lite">
-      <div class="product-card-body">
-        <img class="product-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-NEW_0008s_0002_Layer-1-TPl.png" alt="TouchPoint Lite logo">
-        <p class="product-tag">Lightweight EPoS</p>
-        <p class="product-card-desc">All the reliability of TouchPoint in a portable, tablet-based format. Perfect for businesses that need flexibility without sacrificing features.</p>
-        <span class="product-card-link">Learn more →</span>
-      </div>
-    </a>
-
-    <a href="solutions/touchoffice.html" class="product-card">
-      <img class="product-card-img" src="https://icrtouch.com/wp-content/uploads/TouchOffice-Web_800x400px.jpg" alt="TouchOffice Web">
-      <div class="product-card-body">
-        <img class="product-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-TouchOfficeWeb.png" alt="TouchOffice Web logo">
-        <p class="product-tag">Cloud Back Office</p>
-        <p class="product-card-desc">Manage pricing, monitor staff performance, and view real-time sales data from any device, anywhere. Your business in your pocket.</p>
-        <span class="product-card-link">Learn more →</span>
-      </div>
-    </a>
-
-    <a href="solutions/pockettouch.html" class="product-card">
-      <img class="product-card-img" src="https://icrtouch.com/wp-content/uploads/PocketTouch_Dojo-Pocket_Preview-image.jpg" alt="PocketTouch">
-      <div class="product-card-body">
-        <img class="product-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-PocketTouch.png" alt="PocketTouch logo">
-        <p class="product-tag">Handheld Ordering</p>
-        <p class="product-card-desc">Empower your front-of-house team with handheld devices. Orders go straight to the kitchen, bills are split instantly, and nothing gets lost.</p>
-        <span class="product-card-link">Learn more →</span>
-      </div>
-    </a>
-
-    <a href="solutions/bytable.html" class="product-card">
-      <img class="product-card-img" src="https://icrtouch.com/wp-content/uploads/ByTable_800x400px.jpg" alt="ByTable">
-      <div class="product-card-body">
-        <img class="product-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-ByTable.png" alt="ByTable logo">
-        <p class="product-tag">Order-to-Table</p>
-        <p class="product-card-desc">Customers order from their own phone directly to their table. Zero commission, fully branded, and seamlessly connected to your EPoS.</p>
-        <span class="product-card-link">Learn more →</span>
-      </div>
-    </a>
-
-    <a href="solutions/touchkitchen.html" class="product-card">
-      <img class="product-card-img" src="https://icrtouch.com/wp-content/uploads/TouchKitchen2_800x400px.jpg" alt="TouchKitchen">
-      <div class="product-card-body">
-        <img class="product-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-TouchKitchen-e1666957723516.png" alt="TouchKitchen logo">
-        <p class="product-tag">Kitchen Management</p>
-        <p class="product-card-desc">Replace printed tickets with a smart kitchen display. Orders appear instantly, staff mark them off in real time, and nothing gets missed during a busy service.</p>
-        <span class="product-card-link">Learn more →</span>
-      </div>
-    </a>
-
-    <a href="solutions/selfservice.html" class="product-card">
-      <img class="product-card-img" src="https://icrtouch.com/wp-content/uploads/SelfService_Hero_800x400px.jpg" alt="SelfService">
-      <div class="product-card-body">
-        <img class="product-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-SelfService_NEW2.png" alt="SelfService logo">
-        <p class="product-tag">Kiosk Ordering</p>
-        <p class="product-card-desc">Customer-facing self-order kiosks that reduce queues, free up staff, and increase average spend. Ideal for fast-food, canteens, and high-footfall venues.</p>
-        <span class="product-card-link">Learn more →</span>
-      </div>
-    </a>
-
-    <a href="solutions/touchreservation.html" class="product-card">
-      <img class="product-card-img" src="https://icrtouch.com/wp-content/uploads/TouchReservation_800x400px.jpg" alt="TouchReservation">
-      <div class="product-card-body">
-        <img class="product-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-TouchReservation.png" alt="TouchReservation logo">
-        <p class="product-tag">Online Reservations</p>
-        <p class="product-card-desc">Take table bookings around the clock — even when you're closed. Automated confirmations, smart table allocation, and full EPoS integration.</p>
-        <span class="product-card-link">Learn more →</span>
-      </div>
-    </a>
-
-    <a href="solutions/touchstock.html" class="product-card">
-      <img class="product-card-img" src="https://icrtouch.com/wp-content/uploads/TouchStock_800x400px.jpg" alt="TouchStock">
-      <div class="product-card-body">
-        <img class="product-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-TouchStock.png" alt="TouchStock logo">
-        <p class="product-tag">Stock Management</p>
-        <p class="product-card-desc">Hand-held stock management that counts, scans, and generates labels. Cut waste, reduce errors, and always know what you have in the building.</p>
-        <span class="product-card-link">Learn more →</span>
-      </div>
-    </a>
-
   </div>
 </section>
 
-<!-- ADD-ONS -->
-<section class="addons">
-  <div class="reveal">
-    <p class="section-label" style="color:var(--accent-light)">Add-on solutions</p>
-    <h2 class="section-heading light">Extend your ecosystem.</h2>
-    <p class="section-sub" style="color:rgba(255,255,255,0.45)">Bolt on the tools you need to go further — from online ordering and digital menus to ticketing and cashless payments.</p>
-  </div>
-
-  <div class="addons-grid reveal" style="transition-delay:0.1s">
-
-    <a href="solutions/touchtakeaway.html" class="addon-card">
-      <img class="addon-card-img" src="https://icrtouch.com/wp-content/uploads/TouchTakeaway_800x400px.jpg" alt="TouchTakeaway">
-      <div class="addon-card-body">
-        <img class="addon-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-TouchTakeaway.png" alt="TouchTakeaway logo">
-        <p class="addon-card-name">TouchTakeaway</p>
-        <p class="addon-card-desc">Online ordering for delivery and click & collect — with 0% commission. Syncs directly with your till.</p>
-        <span class="addon-card-link">Learn more →</span>
+<!-- SOLUTION CATALOG -->
+<section class="solution-catalog">
+  <div class="solution-catalog-inner">
+    <div class="solution-catalog-header reveal">
+      <div>
+        <p class="section-label">Complete range</p>
+        <h2 class="section-heading">Find the right solution.</h2>
       </div>
-    </a>
+    </div>
 
-    <a href="solutions/touchmenu.html" class="addon-card">
-      <img class="addon-card-img" src="https://icrtouch.com/wp-content/uploads/TouchMenu_800x400px.jpg" alt="TouchMenu">
-      <div class="addon-card-body">
-        <img class="addon-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-TouchMenu.png" alt="TouchMenu logo">
-        <p class="addon-card-name">TouchMenu</p>
-        <p class="addon-card-desc">Digital menu displays that update automatically, highlight promotions, and show live stock status.</p>
-        <span class="addon-card-link">Learn more →</span>
-      </div>
-    </a>
+    <div class="solution-grid reveal" style="transition-delay:0.1s">
+      <a href="solutions/touchpoint.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchpoint/image-2.jpg" alt="TouchPoint"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchpoint.png" alt="TouchPoint logo"><h3 class="solution-tile-name">TouchPoint</h3><p class="solution-tile-tag">Bespoke EPoS</p><p class="solution-tile-desc">The main till system for fast, flexible sales, staff control, reporting, and day-to-day trading.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchPoint</h3><p>The heart of the setup. Built for single tills, busy hospitality sites, retail counters, and multi-site estates.</p><span>Open TouchPoint &rarr;</span></div>
+        </div>
+      </a>
 
-    <a href="solutions/collectionpoint.html" class="addon-card">
-      <img class="addon-card-img" src="https://icrtouch.com/wp-content/uploads/CollectionPoint_Thumbnail_2025_800x400px.jpg" alt="CollectionPoint">
-      <div class="addon-card-body">
-        <img class="addon-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-CollectionPoint.png" alt="CollectionPoint logo">
-        <p class="addon-card-name">CollectionPoint</p>
-        <p class="addon-card-desc">Customer-facing order status screens that reduce complaints and keep queues moving.</p>
-        <span class="addon-card-link">Learn more →</span>
-      </div>
-    </a>
+      <a href="solutions/touchpoint-lite.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchpoint-lite/image-3.jpg" alt="TouchPoint Lite"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchpointlite.png" alt="TouchPoint Lite logo"><h3 class="solution-tile-name">TouchPoint Lite</h3><p class="solution-tile-tag">Lightweight EPoS</p><p class="solution-tile-desc">A portable, tablet-friendly way to run orders and sales without losing the core TouchPoint features.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchPoint Lite</h3><p>Ideal where space, speed, or portability matters: pop-ups, small counters, mobile teams, and flexible service points.</p><span>Open TouchPoint Lite &rarr;</span></div>
+        </div>
+      </a>
 
-    <a href="solutions/touchtopup.html" class="addon-card">
-      <img class="addon-card-img" src="https://icrtouch.com/wp-content/uploads/TouchTopUp_800x400px.jpg" alt="TouchTopUp">
-      <div class="addon-card-body">
-        <img class="addon-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-TouchTopUp.png" alt="TouchTopUp logo">
-        <p class="addon-card-name">TouchTopUp</p>
-        <p class="addon-card-desc">Pre-paid cashless cards for schools, events, and venues. Faster service, less cash handling.</p>
-        <span class="addon-card-link">Learn more →</span>
-      </div>
-    </a>
+      <a href="solutions/touchoffice.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchoffice/image-2.jpg" alt="TouchOffice Web"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchoffice.png" alt="TouchOffice Web logo"><h3 class="solution-tile-name">TouchOffice Web</h3><p class="solution-tile-tag">Cloud back office</p><p class="solution-tile-desc">Manage prices, products, users, and sales reporting from anywhere with real-time business data.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchOffice Web</h3><p>Your back office in the browser, built for owners and managers who need control away from the till.</p><span>Open TouchOffice Web &rarr;</span></div>
+        </div>
+      </a>
 
-    <a href="solutions/ticketing.html" class="addon-card">
-      <img class="addon-card-img" src="https://icrtouch.com/wp-content/uploads/Ticketing_800x400px.jpg" alt="Ticketing">
-      <div class="addon-card-body">
-        <img class="addon-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-Ticketing1-1.png" alt="Ticketing logo">
-        <p class="addon-card-name">Ticketing</p>
-        <p class="addon-card-desc">Sell and manage event tickets across multiple channels with unlimited ticket types and smart reporting.</p>
-        <span class="addon-card-link">Learn more →</span>
-      </div>
-    </a>
+      <a href="solutions/pockettouch.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/pockettouch/image-3.jpg" alt="PocketTouch"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/pockettouch.png" alt="PocketTouch logo"><h3 class="solution-tile-name">PocketTouch</h3><p class="solution-tile-tag">Handheld ordering</p><p class="solution-tile-desc">Let staff take orders at the table, send them to the kitchen, split bills, and keep service moving.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>PocketTouch</h3><p>For front-of-house teams that need faster ordering, fewer mistakes, and less walking back to the till.</p><span>Open PocketTouch &rarr;</span></div>
+        </div>
+      </a>
 
-    <a href="solutions/digital-signage.html" class="addon-card">
-      <img class="addon-card-img" src="https://icrtouch.com/wp-content/uploads/Digital-Signage_800x400px.jpg" alt="Digital Signage">
-      <div class="addon-card-body">
-        <img class="addon-card-logo" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-DigitalSignage.png" alt="Digital Signage logo">
-        <p class="addon-card-name">Digital Signage</p>
-        <p class="addon-card-desc">Engaging promotional displays that boost customer engagement and showcase live offers.</p>
-        <span class="addon-card-link">Learn more →</span>
-      </div>
-    </a>
+      <a href="solutions/bytable.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/bytable/image-2.jpg" alt="ByTable"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/bytable.png" alt="ByTable logo"><h3 class="solution-tile-name">ByTable</h3><p class="solution-tile-tag">Order-to-table</p><p class="solution-tile-desc">Customer ordering from their own phone, fully branded and connected directly to your EPoS.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>ByTable</h3><p>Perfect for pubs, restaurants, hotels, and venues that want phone ordering without commission.</p><span>Open ByTable &rarr;</span></div>
+        </div>
+      </a>
 
+      <a href="solutions/touchkitchen.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchkitchen/image-2.jpg" alt="TouchKitchen"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchkitchen-cropped.png" alt="TouchKitchen logo"><h3 class="solution-tile-name">TouchKitchen</h3><p class="solution-tile-tag">Kitchen management</p><p class="solution-tile-desc">Replace printed tickets with live kitchen screens that keep orders clear, timed, and organised.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchKitchen</h3><p>Orders appear instantly, staff mark them off in real time, and busy kitchens stay coordinated.</p><span>Open TouchKitchen &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/selfservice.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/selfservice/image-2.jpg" alt="SelfService"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/selfservice.png" alt="SelfService logo"><h3 class="solution-tile-name">SelfService</h3><p class="solution-tile-tag">Kiosk ordering</p><p class="solution-tile-desc">Customer-facing self-ordering for faster queues, higher spend, and smoother high-volume service.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>SelfService</h3><p>Great for fast food, canteens, venues, and any business that needs customers to order quickly.</p><span>Open SelfService &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchreservation.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchreservation/image-2.jpg" alt="TouchReservation"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchreservations.png" alt="TouchReservation logo"><h3 class="solution-tile-name">TouchReservation</h3><p class="solution-tile-tag">Online reservations</p><p class="solution-tile-desc">Take table bookings around the clock with confirmations, allocation, and EPoS integration.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchReservation</h3><p>Turn online bookings into an organised service plan before guests even arrive.</p><span>Open TouchReservation &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchstock.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchstock/image-2.jpg" alt="TouchStock"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchstock.png" alt="TouchStock logo"><h3 class="solution-tile-name">TouchStock</h3><p class="solution-tile-tag">Stock management</p><p class="solution-tile-desc">Count, scan, label, and manage stock with clearer control over waste, margins, and availability.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchStock</h3><p>For businesses that need tighter stock counts, fewer errors, and better visibility across products.</p><span>Open TouchStock &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/collectionpoint.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/collectionpoint/image-3.jpg" alt="CollectionPoint"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/collectionpoint.png" alt="CollectionPoint logo"><h3 class="solution-tile-name">CollectionPoint</h3><p class="solution-tile-tag">Order collection</p><p class="solution-tile-desc">Customer-facing order status screens that reduce questions and keep collection points flowing.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>CollectionPoint</h3><p>Show customers when orders are being prepared and when they are ready to collect.</p><span>Open CollectionPoint &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchtakeaway.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchtakeaway/image-2.jpg" alt="TouchTakeaway"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchtakeaway.png" alt="TouchTakeaway logo"><h3 class="solution-tile-name">TouchTakeaway</h3><p class="solution-tile-tag">Online ordering</p><p class="solution-tile-desc">Delivery and click-and-collect ordering that syncs to the till with no commission on orders.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchTakeaway</h3><p>Own your online ordering channel and send orders straight into the EPoS workflow.</p><span>Open TouchTakeaway &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchmenu.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchmenu/image-2.jpg" alt="TouchMenu"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchmenu.png" alt="TouchMenu logo"><h3 class="solution-tile-name">TouchMenu</h3><p class="solution-tile-tag">Digital menus</p><p class="solution-tile-desc">Digital menu displays that update quickly, highlight promotions, and support live product changes.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchMenu</h3><p>Keep menus current without reprinting, and make promotions easier to manage across screens.</p><span>Open TouchMenu &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/touchtopup.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/touchtopup/image-2.jpg" alt="TouchTopUp"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/touchtopup.png" alt="TouchTopUp logo"><h3 class="solution-tile-name">TouchTopUp</h3><p class="solution-tile-tag">Cashless top-ups</p><p class="solution-tile-desc">Pre-paid accounts and cards for schools, venues, and events where faster cashless service matters.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>TouchTopUp</h3><p>Reduce cash handling while giving customers a simple way to top up and spend.</p><span>Open TouchTopUp &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/ticketing.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/ticketing/image-3.jpg" alt="Ticketing"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/ticketing.png" alt="Ticketing logo"><h3 class="solution-tile-name">Ticketing</h3><p class="solution-tile-tag">Event ticketing</p><p class="solution-tile-desc">Sell and manage event tickets across channels with useful reporting and flexible ticket types.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>Ticketing</h3><p>Built for venues and events that need ticket sales connected to the wider operating setup.</p><span>Open Ticketing &rarr;</span></div>
+        </div>
+      </a>
+
+      <a href="solutions/digital-signage.html" class="solution-tile">
+        <div class="solution-tile-inner">
+          <div class="solution-tile-media"><img src="assets/images/icrtouch/digital-signage/image-2.jpg" alt="Digital Signage"></div>
+          <div class="solution-tile-body"><img class="solution-tile-logo" src="assets/images/solutions/logos/digitalsignage.png" alt="Digital Signage logo"><h3 class="solution-tile-name">Digital Signage</h3><p class="solution-tile-tag">Digital signage</p><p class="solution-tile-desc">Promotional screens for offers, menus, customer messaging, and richer in-store communication.</p><span class="solution-tile-link">Find out more &rarr;</span></div>
+          <div class="solution-tile-detail"><h3>Digital Signage</h3><p>Use connected screens to show offers, promote products, and keep customer-facing content fresh.</p><span>Open Digital Signage &rarr;</span></div>
+        </div>
+      </a>
+    </div>
   </div>
 </section>
 
 <!-- ECOSYSTEM -->
-<section class="ecosystem reveal">
+<section class="ecosystem-clean reveal">
   <p class="section-label">How it all fits together</p>
   <h2 class="section-heading">Every piece works as one.</h2>
-  <p class="section-sub" style="margin: 0.75rem auto 0; text-align:center">Mix and match the solutions your business needs. Everything connects through one central system — no third-party glue required.</p>
-  <div class="ecosystem-grid">
-    <div class="eco-item">
-      <div class="eco-icon">🖥️</div>
-      <div class="eco-name">Till</div>
-      <div class="eco-desc">TouchPoint or TouchPoint Lite</div>
-    </div>
-    <div class="eco-item">
-      <div class="eco-icon">📱</div>
-      <div class="eco-name">Handheld</div>
-      <div class="eco-desc">PocketTouch & ByTable</div>
-    </div>
-    <div class="eco-item">
-      <div class="eco-icon">👨‍🍳</div>
-      <div class="eco-name">Kitchen</div>
-      <div class="eco-desc">TouchKitchen display</div>
-    </div>
-    <div class="eco-item">
-      <div class="eco-icon">☁️</div>
-      <div class="eco-name">Back Office</div>
-      <div class="eco-desc">TouchOffice Web</div>
-    </div>
-    <div class="eco-item">
-      <div class="eco-icon">🛒</div>
-      <div class="eco-name">Online Orders</div>
-      <div class="eco-desc">TouchTakeaway</div>
-    </div>
-    <div class="eco-item">
-      <div class="eco-icon">🧾</div>
-      <div class="eco-name">Self-Order</div>
-      <div class="eco-desc">SelfService kiosks</div>
-    </div>
-    <div class="eco-item">
-      <div class="eco-icon">📦</div>
-      <div class="eco-name">Stock</div>
-      <div class="eco-desc">TouchStock</div>
-    </div>
-    <div class="eco-item">
-      <div class="eco-icon">📅</div>
-      <div class="eco-name">Bookings</div>
-      <div class="eco-desc">TouchReservation</div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-band reveal">
-  <h2>Not sure what you <em>need?</em></h2>
-  <p>Tell us about your business and we'll put together exactly the right combination — no guesswork, no overselling.</p>
-  <a href="contact.html" class="btn-primary">Get a free quote →</a>
+  <p class="section-sub" style="margin-top: 0.75rem">Start with what you need now, then add the tools that make service faster, reporting clearer, and operations easier to manage.</p>
 </section>
 
 <!-- FOOTER -->
 <footer class="site-footer">
   <div class="footer-top">
     <div>
-      <div class="footer-brand">Prime<span>-EPOS</span></div>
+      <div class="footer-brand pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></div>
       <p class="footer-tagline">Professional EPoS solutions for UK businesses. Hardware that lasts. Software that works. Support that's actually here.</p>
       <div class="footer-contact">
-        <div>📞 <a href="tel:07947246247">07947 246247</a></div>
-        <div>✉️ <a href="mailto:info@prime-epos.co.uk">info@prime-epos.co.uk</a></div>
-        <div>🕐 24/7 Support available</div>
+        <div>Phone: <a href="tel:07947246247">07947 246247</a></div>
+        <div>Email: <a href="mailto:info@prime-epos.co.uk">info@prime-epos.co.uk</a></div>
+        <div>Support: 24/7 support available</div>
       </div>
     </div>
     <div>
       <div class="footer-col-title">Industries</div>
       <ul class="footer-links">
-        <li><a href="industries.html#hospitality">Hospitality</a></li>
-        <li><a href="industries.html#retail">Retail</a></li>
-        <li><a href="industries.html#venues">Venues & Events</a></li>
-        <li><a href="industries.html#education">Schools</a></li>
+        <li><a href="industries/hospitality.html">Hospitality</a></li>
+        <li><a href="industries/retail.html">Retail</a></li>
+        <li><a href="industries/venues.html">Venues &amp; Events</a></li>
+        <li><a href="industries/services.html">Services</a></li>
       </ul>
     </div>
     <div>
@@ -868,7 +1030,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2025 Prime-EPOS. All rights reserved. Registered in England & Wales.</p>
+    <p class="footer-copy">&copy; 2026 Prime-EPOS. All rights reserved. Registered in England &amp; Wales.</p>
     <div class="footer-legal">
       <a href="privacy.html">Privacy Policy</a>
       <a href="cookies.html">Cookies</a>
