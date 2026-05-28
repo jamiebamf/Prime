@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SelfService — Prime-EPOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+  .product-hero { background: var(--dark); padding: 140px 5vw 80px; position: relative; overflow: hidden; }
+  .product-hero::before { content: ''; position: absolute; top: -150px; right: -50px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(232,93,4,0.1) 0%, transparent 70%); pointer-events: none; }
+  .hero-eyebrow { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 1rem; opacity:0; animation: fadeUp 0.7s 0.1s forwards; }
+  .product-hero-inner { display: grid; grid-template-columns: 1fr 420px; gap: 4rem; align-items: center; }
+  .product-hero h1 { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; color: var(--white); margin-bottom: 1.25rem; opacity:0; animation: fadeUp 0.7s 0.2s forwards; }
+  .product-hero h1 em { font-style: normal; color: var(--accent-light); }
+  .product-hero-sub { font-size: 1.05rem; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.5); margin-bottom: 2rem; opacity:0; animation: fadeUp 0.7s 0.35s forwards; }
+  .product-hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; opacity:0; animation: fadeUp 0.7s 0.5s forwards; }
+  .hero-img-wrap { border-radius: 14px; overflow: hidden; opacity:0; animation: fadeUp 0.7s 0.3s forwards; }
+  .hero-img-wrap img { width: 100%; display: block; object-fit: cover; }
+  .product-logo-img { height: 32px; width: auto; object-fit: contain; object-position: left; display: block; margin-bottom: 1.25rem; filter: brightness(0) invert(1); opacity:0; animation: fadeUp 0.7s 0.1s forwards; }
+  /* Overview */
+  .overview { padding: 80px 5vw; background: var(--white); }
+  .overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-top: 3rem; }
+  .overview-text p { font-size: 1rem; line-height: 1.8; color: var(--mid); margin-bottom: 1rem; }
+  .overview-text p strong { color: var(--black); font-weight: 600; }
+  .overview-img { border-radius: 14px; overflow: hidden; }
+  .overview-img img { width: 100%; display: block; object-fit: cover; aspect-ratio: 4/3; }
+  /* Features grid */
+  .features { padding: 80px 5vw; background: var(--off-white); }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
+  .feature-card { background: var(--white); border: 1px solid var(--border-light); border-radius: 12px; padding: 1.75rem; transition: box-shadow 0.2s; }
+  .feature-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.07); }
+  .feature-card-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+  .feature-card-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+  .feature-card-text { font-size: 0.875rem; line-height: 1.65; color: var(--mid); }
+  /* Dark feature band */
+  .feature-band { background: var(--dark); padding: 80px 5vw; }
+  .feature-band-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-top: 3rem; }
+  .feature-band-grid.reverse { direction: rtl; }
+  .feature-band-grid.reverse > * { direction: ltr; }
+  .feature-band-img { border-radius: 14px; overflow: hidden; }
+  .feature-band-img img { width: 100%; display: block; object-fit: cover; aspect-ratio: 4/3; }
+  .feature-band-text p { font-size: 1rem; line-height: 1.8; color: rgba(255,255,255,0.5); margin-bottom: 1rem; font-weight: 300; }
+  .feature-band-list { list-style: none; margin-top: 1.5rem; }
+  .feature-band-list li { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.9rem; color: rgba(255,255,255,0.55); padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+  .feature-band-list li::before { content: "✓"; color: var(--accent-light); font-weight: 700; flex-shrink: 0; }
+  /* Related */
+  .related { padding: 80px 5vw; background: var(--white); }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
+  .related-card { border: 1px solid var(--border-light); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: box-shadow 0.2s, transform 0.2s; display: block; }
+  .related-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .related-card img { width: 100%; height: 160px; object-fit: cover; display: block; background: var(--off-white); }
+  .related-card-body { padding: 1.1rem 1.25rem; }
+  .related-card-name { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .related-card-desc { font-size: 0.8rem; color: var(--mid); line-height: 1.5; }
+  @media (max-width: 900px) { .product-hero-inner { grid-template-columns: 1fr; } .hero-img-wrap { display: none; } .overview-grid { grid-template-columns: 1fr; } .feature-band-grid { grid-template-columns: 1fr; } .feature-band-grid.reverse { direction: ltr; } }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../index.html" class="nav-logo">Prime<span>-EPOS</span></a>
+  <ul class="nav-links">
+    <li class="has-dropdown">
+      <a href="../industries.html">Industries</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="../industries/hospitality.html">Hospitality</a>
+          <a href="../industries/retail.html">Retail</a>
+          <a href="../industries/venues.html">Venues &amp; Events</a>
+          <a href="../industries/services.html">Services</a>
+        </div>
+      </div>
+    </li>
+    <li class="has-dropdown">
+      <a href="../solutions.html">Solutions</a>
+      <div class="nav-dropdown wide">
+        <div class="nav-dropdown-inner">
+          <a href="../solutions/touchpoint.html">TouchPoint</a>
+          <a href="../solutions/touchpoint-lite.html">TouchPoint Lite</a>
+          <a href="../solutions/touchoffice.html">TouchOffice Web</a>
+          <a href="../solutions/pockettouch.html">PocketTouch</a>
+          <a href="../solutions/bytable.html">ByTable</a>
+          <a href="../solutions/touchkitchen.html">TouchKitchen</a>
+          <a href="../solutions/selfservice.html">SelfService</a>
+          <a href="../solutions/touchstock.html">TouchStock</a>
+          <a href="../solutions/touchreservation.html">TouchReservation</a>
+          <a href="../solutions/collectionpoint.html">CollectionPoint</a>
+          <div class="dd-divider"></div>
+          <div class="dd-view-all"><a href="../solutions.html">View all solutions →</a></div>
+        </div>
+      </div>
+    </li>
+    <li><a href="../products.html">Products</a></li>
+    <li><a href="../pricing.html">Pricing</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../contact.html" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<section class="product-hero">
+  <div class="product-hero-inner">
+    <div>
+      <img class="product-logo-img" src="https://icrtouch.com/wp-content/uploads/ProductLogos-LeftJustified-SelfService_NEW2.png" alt="SelfService logo">
+      <p class="hero-eyebrow">Self-order kiosks</p>
+      <h1>Let customers order<br><em>themselves.</em></h1>
+      <p class="product-hero-sub">Interactive self-order kiosks that reduce queues, free up staff, and consistently increase average spend. Ideal for fast food, canteens, and any high-footfall venue.</p>
+      <div class="product-hero-actions">
+        <a href="../contact.html" class="btn-primary">Get a quote →</a>
+        <a href="../solutions.html" class="btn-ghost">All solutions</a>
+      </div>
+    </div>
+    <div class="hero-img-wrap">
+      <img src="https://icrtouch.com/wp-content/uploads/SelfService_Hero_800x400px.jpg" alt="SelfService">
+    </div>
+  </div>
+</section>
+
+<section class="overview">
+  <div class="overview-grid reveal">
+    <div class="overview-text">
+      <p class="section-label">Overview</p>
+      <h2 class="section-heading" style="margin-bottom:1.5rem;">Let customers order<br><em>themselves.</em></h2>
+      <p>SelfService kiosks give customers full control of their ordering experience. They browse the menu at their own pace, customise their order, and pay — all without needing a member of staff. Orders fire directly to the kitchen the moment payment is made.</p>
+      <p><strong>The upsell impact is significant.</strong> Kiosks consistently prompt for extras, upgrades, and add-ons without any awkwardness. Most businesses see average transaction values increase noticeably after installing SelfService.</p>
+      <div style="margin-top:1.75rem;">
+        <a href="../contact.html" class="btn-primary">Get a quote →</a>
+      </div>
+    </div>
+    <div class="overview-img">
+      <img src="https://icrtouch.com/wp-content/uploads/SelfService_Hero_800x400px.jpg" alt="SelfService overview">
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="reveal">
+    <p class="section-label">Key features</p>
+    <h2 class="section-heading">Everything you need,<br>nothing you don't.</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal" style="transition-delay:0s">
+      <div class="feature-card-icon">🧾</div>
+      <div class="feature-card-title">Full menu browsing</div>
+      <p class="feature-card-text">Customers explore your entire menu at their own pace, with images, descriptions, and allergen information clearly displayed.</p>
+    </div>
+    <div class="feature-card reveal" style="transition-delay:0.05s">
+      <div class="feature-card-icon">💰</div>
+      <div class="feature-card-title">Upsell automation</div>
+      <p class="feature-card-text">The kiosk consistently prompts for extras, upgrades, and add-ons — increasing average transaction value on every order.</p>
+    </div>
+    <div class="feature-card reveal" style="transition-delay:0.1s">
+      <div class="feature-card-icon">💳</div>
+      <div class="feature-card-title">Integrated payments</div>
+      <p class="feature-card-text">Card and contactless payments handled directly at the kiosk. No separate terminal, no staff involvement needed.</p>
+    </div>
+    <div class="feature-card reveal" style="transition-delay:0.15s">
+      <div class="feature-card-icon">🔗</div>
+      <div class="feature-card-title">Direct kitchen integration</div>
+      <p class="feature-card-text">Orders fire instantly to your kitchen display or printer the moment payment is taken. No manual relay needed.</p>
+    </div>
+    <div class="feature-card reveal" style="transition-delay:0.2s">
+      <div class="feature-card-icon">🌍</div>
+      <div class="feature-card-title">Multi-language support</div>
+      <p class="feature-card-text">Display the menu in multiple languages — ideal for tourist locations, airports, and diverse customer bases.</p>
+    </div>
+    <div class="feature-card reveal" style="transition-delay:0.25s">
+      <div class="feature-card-icon">📊</div>
+      <div class="feature-card-title">Reduces queue pressure</div>
+      <p class="feature-card-text">Multiple kiosks handle peak demand without needing additional staff. Service keeps moving even when it's busy.</p>
+    </div>
+  </div>
+</section>
+
+<section class="feature-band">
+  <div class="feature-band-grid reveal">
+    <div class="feature-band-text">
+      <p class="section-label" style="color:var(--accent-light)">Self-order kiosks</p>
+      <h2 class="section-heading light" style="margin-bottom:1.25rem;">Fewer queues.<br>Higher spend.</h2>
+      <p>Self-order kiosks work around the clock without breaks, never forget to upsell, and give customers the browsing time they need to spend more.</p>
+      <ul class="feature-band-list">
+<li>Floor-standing and countertop kiosk formats</li><li>Full menu with images and allergen info</li><li>Consistent upsell prompts on every order</li><li>Integrated card payments</li><li>Direct kitchen display integration</li><li>Ideal for fast food, canteens, stadiums, airports</li>      </ul>
+    </div>
+    <div class="feature-band-img">
+      <img src="https://icrtouch.com/wp-content/uploads/SelfService_Hero_800x400px.jpg" alt="SelfService">
+    </div>
+  </div>
+</section>
+
+<div class="cta-band reveal">
+  <h2>Ready to add <em>SelfService</em><br>to your setup?</h2>
+  <p>Get in touch and we'll put together a tailored quote — usually within one working day.</p>
+  <a href="../contact.html" class="btn-primary">Get a free quote →</a>
+</div>
+
+<section class="related">
+  <div class="reveal">
+    <p class="section-label">Works great with</p>
+    <h2 class="section-heading">Complete the ecosystem.</h2>
+  </div>
+  <div class="related-grid reveal" style="transition-delay:0.1s">
+    <a href="../solutions/touchpoint.html" class="related-card">
+      <img src="https://icrtouch.com/wp-content/uploads/TouchPoint-800x400px.jpg" alt="TouchPoint">
+      <div class="related-card-body">
+        <div class="related-card-name">TouchPoint</div>
+        <p class="related-card-desc">Full till system that works alongside kiosks.</p>
+      </div>
+    </a>
+    <a href="../solutions/collectionpoint.html" class="related-card">
+      <img src="https://icrtouch.com/wp-content/uploads/CollectionPoint_Thumbnail_2025_800x400px.jpg" alt="CollectionPoint">
+      <div class="related-card-body">
+        <div class="related-card-name">CollectionPoint</div>
+        <p class="related-card-desc">Order ready displays for customers.</p>
+      </div>
+    </a>
+    <a href="../solutions/touchkitchen.html" class="related-card">
+      <img src="https://icrtouch.com/wp-content/uploads/TouchKitchen2_800x400px.jpg" alt="TouchKitchen">
+      <div class="related-card-body">
+        <div class="related-card-name">TouchKitchen</div>
+        <p class="related-card-desc">Kitchen display that receives kiosk orders.</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Prime<span>-EPOS</span></div>
+      <p class="footer-tagline">Professional EPoS solutions for UK businesses. Hardware that lasts. Software that works. Support that's actually here.</p>
+      <div class="footer-contact">
+        <div>📞 <a href="tel:07947246247">07947 246247</a></div>
+        <div>✉️ <a href="mailto:info@prime-epos.co.uk">info@prime-epos.co.uk</a></div>
+        <div>🕐 24/7 Support available</div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Solutions</div>
+      <ul class="footer-links">
+        <li><a href="../solutions/touchpoint.html">TouchPoint</a></li>
+        <li><a href="../solutions/touchoffice.html">TouchOffice Web</a></li>
+        <li><a href="../solutions/pockettouch.html">PocketTouch</a></li>
+        <li><a href="../solutions/bytable.html">ByTable</a></li>
+        <li><a href="../solutions/touchkitchen.html">TouchKitchen</a></li>
+        <li><a href="../solutions.html">View all →</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Industries</div>
+      <ul class="footer-links">
+        <li><a href="../industries.html#hospitality">Hospitality</a></li>
+        <li><a href="../industries.html#retail">Retail</a></li>
+        <li><a href="../industries.html#venues">Venues &amp; Events</a></li>
+        <li><a href="../industries.html#education">Schools</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="../about.html">About Us</a></li>
+        <li><a href="../pricing.html">Pricing</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+        <li><a href="../status.html">System Status</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Prime-EPOS. All rights reserved. Registered in England &amp; Wales.</p>
+    <div class="footer-legal">
+      <a href="../privacy.html">Privacy Policy</a>
+      <a href="../cookies.html">Cookies</a>
+      <a href="../terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
