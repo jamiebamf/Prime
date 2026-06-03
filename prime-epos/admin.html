@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop Admin - Prime-EPOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/site-shell-v2.css">
+<style>
+  body { background: #f5f2ec; }
+  .admin-shell { min-height: 100vh; padding: 108px 5vw 64px; }
+  .admin-inner { max-width: 1440px; margin: 0 auto; }
+  .admin-head { display: flex; justify-content: space-between; gap: 1rem; align-items: end; margin-bottom: 1.25rem; }
+  .admin-head p { color: var(--mid); max-width: 640px; line-height: 1.65; }
+  .admin-card { border: 1px solid rgba(15, 15, 15, 0.1); border-radius: 8px; background: #fffdf8; box-shadow: 0 18px 42px rgba(15, 15, 15, 0.08); }
+  .login-card { max-width: 520px; padding: 1.4rem; }
+  .admin-form { display: grid; gap: 0.85rem; }
+  .admin-form label { color: var(--black); font-family: var(--font-display); font-weight: 800; }
+  .admin-input, .admin-select, .admin-textarea { width: 100%; border: 1px solid rgba(15, 15, 15, 0.14); border-radius: 8px; background: #fff; color: var(--black); font: inherit; padding: 0.8rem 0.9rem; }
+  .admin-textarea { min-height: 130px; resize: vertical; }
+  .admin-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; }
+  .admin-button { border: 0; border-radius: 8px; background: var(--accent); color: var(--white); cursor: pointer; font-family: var(--font-display); font-weight: 800; padding: 0.85rem 1rem; }
+  .admin-button.secondary { background: #151312; }
+  .admin-button.ghost { border: 1px solid rgba(15, 15, 15, 0.12); background: transparent; color: var(--black); }
+  .admin-button:disabled { opacity: 0.45; cursor: not-allowed; }
+  .admin-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) 220px auto auto; gap: 0.75rem; padding: 1rem; margin-bottom: 1rem; align-items: center; }
+  .admin-grid { display: grid; grid-template-columns: minmax(0, 1fr) 460px; gap: 1rem; align-items: start; }
+  .admin-list { max-height: calc(100vh - 250px); overflow: auto; }
+  .admin-row { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 0.9rem; align-items: center; padding: 0.85rem 1rem; border-bottom: 1px solid rgba(15, 15, 15, 0.08); cursor: pointer; }
+  .admin-row:hover, .admin-row.is-active { background: #fff3e8; }
+  .admin-thumb { width: 72px; height: 54px; border-radius: 7px; background: #eee7dc; display: grid; place-items: center; overflow: hidden; color: rgba(15, 15, 15, 0.44); font-size: 0.68rem; font-weight: 800; text-align: center; text-transform: uppercase; }
+  .admin-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+  .admin-row h3 { color: var(--black); font-family: var(--font-display); font-size: 1rem; line-height: 1.2; }
+  .admin-row p { color: var(--mid); font-size: 0.86rem; margin-top: 0.25rem; }
+  .admin-price { color: var(--black); font-family: var(--font-display); font-weight: 900; white-space: nowrap; }
+  .editor-card { position: sticky; top: 88px; padding: 1rem; }
+  .editor-grid { display: grid; gap: 0.75rem; }
+  .editor-two { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .admin-checks { display: flex; gap: 1rem; flex-wrap: wrap; color: var(--mid); }
+  .admin-status { color: var(--mid); margin-top: 0.8rem; }
+  .is-hidden { display: none !important; }
+  @media (max-width: 1000px) { .admin-head, .admin-toolbar, .admin-grid, .editor-two { grid-template-columns: 1fr; display: grid; } .editor-card { position: static; } }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo pe-logo"><span class="pe-logo-icon" aria-hidden="true"></span><span class="pe-logo-word"><span class="pe-logo-prime">Prime</span><span class="pe-logo-dash">-</span><span class="pe-logo-epos">EPOS</span></span></a>
+  <ul class="nav-links">
+    <li><a href="products.html">Shop</a></li>
+    <li><a href="index.html">Website</a></li>
+    <li><button class="nav-cta admin-button" type="button" data-sign-out>Sign out</button></li>
+  </ul>
+  <button class="nav-mobile-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<main class="admin-shell">
+  <div class="admin-inner">
+    <section class="admin-head">
+      <div>
+        <p class="section-label">Shop Admin</p>
+        <h1 class="section-heading">Manage products.</h1>
+      </div>
+      <p>Edit product names, prices, categories, descriptions, images and availability. Changes save to Supabase and appear on the live shop once configured.</p>
+    </section>
+
+    <section class="admin-card login-card" data-login-panel>
+      <form class="admin-form" data-login-form>
+        <label>Email
+          <input class="admin-input" type="email" name="email" autocomplete="email" required>
+        </label>
+        <label>Password
+          <input class="admin-input" type="password" name="password" autocomplete="current-password" required>
+        </label>
+        <button class="admin-button" type="submit">Sign in</button>
+        <p class="admin-status" data-login-status>Use the admin account created in Supabase Auth.</p>
+      </form>
+    </section>
+
+    <section class="is-hidden" data-admin-panel>
+      <div class="admin-card admin-toolbar">
+        <input class="admin-input" type="search" placeholder="Search products, SKUs or brands..." data-search>
+        <select class="admin-select" data-category-filter></select>
+        <label class="admin-button ghost" style="display:flex;align-items:center;gap:.45rem;">
+          <input type="checkbox" data-no-image-filter>
+          No image
+        </label>
+        <button class="admin-button" type="button" data-new-product>New product</button>
+      </div>
+      <div class="admin-grid">
+        <div class="admin-card admin-list" data-product-list></div>
+        <aside class="admin-card editor-card">
+          <form class="editor-grid" data-editor-form>
+            <input type="hidden" name="id">
+            <label>Name
+              <input class="admin-input" name="name" required>
+            </label>
+            <div class="editor-two">
+              <label>SKU
+                <input class="admin-input" name="sku" required>
+              </label>
+              <label>Brand
+                <input class="admin-input" name="brand">
+              </label>
+            </div>
+            <div class="editor-two">
+              <label>Category
+                <select class="admin-select" name="category" required data-editor-category></select>
+              </label>
+              <label>Price
+                <input class="admin-input" name="price" type="number" step="0.01" min="0">
+              </label>
+            </div>
+            <label>New category
+              <input class="admin-input" name="new_category" placeholder="Add a category name">
+            </label>
+            <label>Description
+              <textarea class="admin-textarea" name="description" required></textarea>
+            </label>
+            <label>Image URL
+              <input class="admin-input" name="image_url">
+            </label>
+            <div class="editor-two">
+              <label>Available
+                <input class="admin-input" name="available" type="number" step="1" min="0">
+              </label>
+              <label>Tags
+                <input class="admin-input" name="tags" placeholder="Printer, Android, Bundle">
+              </label>
+            </div>
+            <div class="admin-checks">
+              <label><input type="checkbox" name="purchasable"> Purchasable</label>
+              <label><input type="checkbox" name="in_stock"> In stock</label>
+              <label><input type="checkbox" name="active"> Active</label>
+            </div>
+            <div class="admin-actions">
+              <button class="admin-button" type="submit">Save product</button>
+              <button class="admin-button ghost" type="button" data-delete-product>Delete</button>
+            </div>
+            <p class="admin-status" data-editor-status>Select a product to edit.</p>
+          </form>
+        </aside>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/js/shop-config.js"></script>
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+  const config = window.PRIME_SHOP_CONFIG || {};
+  const configured = Boolean(config.supabaseUrl && config.supabaseAnonKey);
+  const loginPanel = document.querySelector("[data-login-panel]");
+  const adminPanel = document.querySelector("[data-admin-panel]");
+  const loginForm = document.querySelector("[data-login-form]");
+  const loginStatus = document.querySelector("[data-login-status]");
+  const list = document.querySelector("[data-product-list]");
+  const editorForm = document.querySelector("[data-editor-form]");
+  const editorStatus = document.querySelector("[data-editor-status]");
+  const searchInput = document.querySelector("[data-search]");
+  const categoryFilter = document.querySelector("[data-category-filter]");
+  const noImageFilter = document.querySelector("[data-no-image-filter]");
+  const editorCategory = document.querySelector("[data-editor-category]");
+  const money = (value) => new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(Number(value || 0));
+  const safe = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+
+  let supabase = null;
+  let products = [];
+  let selectedId = null;
+
+  if (!configured) {
+    loginStatus.textContent = "Add your Supabase URL and anon key in assets/js/shop-config.js first.";
+  } else {
+    supabase = createClient(config.supabaseUrl, config.supabaseAnonKey);
+    const { data } = await supabase.auth.getSession();
+    if (data.session) await showAdmin();
+  }
+
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!supabase) return;
+    const formData = new FormData(loginForm);
+    loginStatus.textContent = "Signing in...";
+    const { error } = await supabase.auth.signInWithPassword({
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
+    if (error) {
+      loginStatus.textContent = error.message;
+      return;
+    }
+    await showAdmin();
+  });
+
+  document.querySelector("[data-sign-out]").addEventListener("click", async () => {
+    if (supabase) await supabase.auth.signOut();
+    location.reload();
+  });
+
+  async function showAdmin() {
+    loginPanel.classList.add("is-hidden");
+    adminPanel.classList.remove("is-hidden");
+    await loadProducts();
+  }
+
+  async function loadProducts() {
+    list.innerHTML = '<p class="admin-status" style="padding:1rem;">Loading products...</p>';
+    const { data, error } = await supabase
+      .from("shop_products")
+      .select("*")
+      .order("sort_order", { ascending: true })
+      .order("name", { ascending: true });
+
+    if (error) {
+      list.innerHTML = `<p class="admin-status" style="padding:1rem;">${safe(error.message)}</p>`;
+      return;
+    }
+
+    products = data || [];
+    buildFilters();
+    renderList();
+    if (products[0]) selectProduct(products[0].id);
+  }
+
+  function buildFilters() {
+    const categories = ["All categories", ...new Set(products.map((product) => product.category).filter(Boolean).sort())];
+    categoryFilter.innerHTML = categories.map((category) => `<option>${safe(category)}</option>`).join("");
+    const editorCategories = categories.filter((category) => !["All categories", "All products", "Featured"].includes(category));
+    editorCategory.innerHTML = editorCategories.map((category) => `<option>${safe(category)}</option>`).join("");
+  }
+
+  function visibleProducts() {
+    const term = searchInput.value.trim().toLowerCase();
+    const category = categoryFilter.value;
+    return products.filter((product) => {
+      const matchesCategory = !category || category === "All categories" || product.category === category;
+      const matchesImage = !noImageFilter.checked || !product.has_image;
+      const haystack = [product.name, product.sku, product.brand, product.category].join(" ").toLowerCase();
+      return matchesCategory && matchesImage && (!term || haystack.includes(term));
+    });
+  }
+
+  function renderList() {
+    const rows = visibleProducts();
+    if (!rows.length) {
+      list.innerHTML = '<p class="admin-status" style="padding:1rem;">No products found.</p>';
+      return;
+    }
+    list.innerHTML = rows.map((product) => `
+      <article class="admin-row${product.id === selectedId ? " is-active" : ""}" data-product-id="${safe(product.id)}">
+        <div class="admin-thumb">${product.image_url ? `<img ${"src"}="${safe(product.image_url)}" alt="">` : "No image"}</div>
+        <div>
+          <h3>${safe(product.name)}</h3>
+          <p>${safe(product.sku)} · ${safe(product.category)}${product.active ? "" : " · Hidden"}</p>
+        </div>
+        <div class="admin-price">${product.price ? money(product.price) : "No price"}</div>
+      </article>
+    `).join("");
+  }
+
+  function selectProduct(id) {
+    const product = products.find((item) => item.id === id);
+    if (!product) return;
+    selectedId = id;
+    editorForm.id.value = product.id || product.sku;
+    editorForm.name.value = product.name || "";
+    editorForm.sku.value = product.sku || "";
+    editorForm.brand.value = product.brand || "";
+    if (![...editorCategory.options].some((option) => option.value === product.category)) {
+      editorCategory.add(new Option(product.category, product.category));
+    }
+    editorForm.category.value = product.category || "";
+    editorForm.price.value = product.price ?? "";
+    editorForm.description.value = product.description || "";
+    editorForm.image_url.value = product.image_url || "";
+    editorForm.available.value = product.available ?? 0;
+    editorForm.tags.value = (product.tags || []).join(", ");
+    editorForm.new_category.value = "";
+    editorForm.purchasable.checked = Boolean(product.purchasable);
+    editorForm.in_stock.checked = Boolean(product.in_stock);
+    editorForm.active.checked = Boolean(product.active);
+    editorStatus.textContent = `Editing ${product.sku}`;
+    renderList();
+  }
+
+  list.addEventListener("click", (event) => {
+    const row = event.target.closest("[data-product-id]");
+    if (row) selectProduct(row.dataset.productId);
+  });
+
+  searchInput.addEventListener("input", renderList);
+  categoryFilter.addEventListener("change", renderList);
+  noImageFilter.addEventListener("change", renderList);
+
+  document.querySelector("[data-new-product]").addEventListener("click", () => {
+    selectedId = null;
+    editorForm.reset();
+    editorForm.purchasable.checked = true;
+    editorForm.in_stock.checked = true;
+    editorForm.active.checked = true;
+    editorStatus.textContent = "Creating a new product.";
+    renderList();
+  });
+
+  editorForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!supabase) return;
+    const formData = new FormData(editorForm);
+    const sku = String(formData.get("sku")).trim();
+    const price = Number(formData.get("price"));
+    const row = {
+      id: String(formData.get("id") || sku).trim() || sku,
+      sku,
+      name: String(formData.get("name")).trim(),
+      brand: String(formData.get("brand")).trim() || null,
+      category: String(formData.get("new_category")).trim() || String(formData.get("category")).trim() || "Accessories",
+      price: Number.isFinite(price) && price > 0 ? price : null,
+      display_price: Number.isFinite(price) && price > 0 ? money(price) : "Price coming soon",
+      purchasable: editorForm.purchasable.checked && Number.isFinite(price) && price > 0,
+      available: Number(formData.get("available")) || 0,
+      in_stock: editorForm.in_stock.checked,
+      description: String(formData.get("description")).trim(),
+      image_url: String(formData.get("image_url")).trim() || null,
+      images: String(formData.get("image_url")).trim() ? [String(formData.get("image_url")).trim()] : [],
+      has_image: Boolean(String(formData.get("image_url")).trim()),
+      tags: String(formData.get("tags")).split(",").map((tag) => tag.trim()).filter(Boolean),
+      active: editorForm.active.checked,
+    };
+
+    editorStatus.textContent = "Saving...";
+    const { error } = await supabase.from("shop_products").upsert(row);
+    if (error) {
+      editorStatus.textContent = error.message;
+      return;
+    }
+    editorStatus.textContent = "Saved.";
+    await loadProducts();
+    selectProduct(row.id);
+  });
+
+  document.querySelector("[data-delete-product]").addEventListener("click", async () => {
+    if (!selectedId || !confirm("Delete this product?")) return;
+    const { error } = await supabase.from("shop_products").delete().eq("id", selectedId);
+    if (error) {
+      editorStatus.textContent = error.message;
+      return;
+    }
+    selectedId = null;
+    await loadProducts();
+  });
+</script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "prime-epos-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "rebuild:shop": "node tools/rebuild-shop.mjs"
+  }
+}
