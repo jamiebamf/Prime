@@ -43,7 +43,6 @@ jobs:
           mkdir -p ~/.ssh
           printf '%s\n' "${{ secrets.HOSTINGER_SSH_PRIVATE_KEY }}" > ~/.ssh/hostinger_key
           chmod 600 ~/.ssh/hostinger_key
-          ssh-keyscan -p "${{ secrets.HOSTINGER_SSH_PORT }}" "${{ secrets.HOSTINGER_SSH_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Upload files to Hostinger
         run: |
@@ -51,12 +50,13 @@ jobs:
             --exclude 'node_modules/' \
             --exclude 'tmp/' \
             --exclude '*.log' \
-            -e "ssh -i ~/.ssh/hostinger_key -p ${{ secrets.HOSTINGER_SSH_PORT }}" \
+            -e "ssh -i ~/.ssh/hostinger_key -p ${{ secrets.HOSTINGER_SSH_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
             deploy/ \
             "${{ secrets.HOSTINGER_SSH_USER }}@${{ secrets.HOSTINGER_SSH_HOST }}:${{ secrets.HOSTINGER_APP_PATH }}/"
 
       - name: Restart app
         run: |
           ssh -i ~/.ssh/hostinger_key -p "${{ secrets.HOSTINGER_SSH_PORT }}" \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             "${{ secrets.HOSTINGER_SSH_USER }}@${{ secrets.HOSTINGER_SSH_HOST }}" \
             "cd '${{ secrets.HOSTINGER_APP_PATH }}' && mkdir -p tmp && touch tmp/restart.txt"
